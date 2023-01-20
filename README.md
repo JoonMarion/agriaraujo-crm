@@ -1,9 +1,9 @@
-## Projeto de Clinica para Programação p/ Internet 2
+## Projeto de Sistema de Agendamento
 
 No que consite este projeto:
-- Administrar medicos e especialidade e agendas
+- Administrar consultas, especialidade e agendas
 - Criar uma agenda para disponibilizar as consultas
-- Permitir o usuario escolher um consulta em dia e horario de acordo com agenda do medico.
+- Permitir o usuário escolher um consulta em dia e horario de acordo com agenda do especialista.
 
 ## Configurando o ambiente para executar a aplicação web.
 Faça o download deste repositorio:
