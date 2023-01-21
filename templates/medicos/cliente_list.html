@@ -1,13 +1,13 @@
 {% extends "accounts/index.html" %}
 
 {% block title %}
-   Cliente
+    Cliente
 {% endblock %}
 
 {% block accounts_container %}
-<h2>Clientes</h2>
-<table class="table table-bordered">
-    <thead>
+    <h2>Clientes</h2>
+    <table class="table table-bordered">
+        <thead>
         <tr>
             <th>
                 ID
@@ -18,22 +18,35 @@
             <th>
                 Telefone
             </th>
+            <th>
+                Opções
+            </th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         {% for cliente in object_list %}
-        <tr>
-            <td>
-                <a href=""># {{ cliente.pk }}</a>
-            </td>
-            <td>
-                {{ cliente.nome }}
-            </td>
-            <td>
-                {{ cliente.telefone }}
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    <a href=""># {{ cliente.pk }}</a>
+                </td>
+                <td>
+                    {{ cliente.nome }}
+                </td>
+                <td>
+                    {{ cliente.telefone }}
+                </td>
+                <td>
+                    <a href="{% url 'medicos:cliente_atualizar' cliente.id %}" class="text-primary"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{% url 'medicos:cliente_deletar' cliente.id %}" class="mr-1 text-danger"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
         {% endfor %}
-    </tbody>
-</table>
+        </tbody>
+    </table>
 {% endblock %}

@@ -28,22 +28,22 @@
                     {#                        <a href="{% url 'clientes:consulta_create' %}">Agendar Consulta</a>#}
                     {#                    </li>#}
                     <li>
-                        <a href="{% url 'medicos:agendar_consulta' %}">Agendar</a>
+                        <a href="{% url 'medicos:especialidade_cadastro' %}">Procedimento</a>
                     </li>
                     <li>
                         <a href="{% url 'medicos:medico_cadastro' %}">Profissional</a>
                     </li>
                     <li>
-                        <a href="{% url 'medicos:especialidade_cadastro' %}">Procedimento</a>
+                        <a href="{% url 'medicos:cliente_cadastro' %}">Cliente</a>
                     </li>
                     <li>
-                        <a href="{% url 'medicos:cliente_cadastro' %}">Cliente</a>
+                        <a href="{% url 'medicos:agendar_consulta' %}">Agendar</a>
                     </li>
                 {% endif %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'accounts:index' %}">Minha Conta</a></li>
+                    <li><a href="{% url 'accounts:index' %}">Informações</a></li>
                     <li><a href="{% url 'accounts:logout' %}">Sair</a></li>
                 {% else %}
                     <li><a href="{% url 'accounts:login' %}">Entrar</a></li>

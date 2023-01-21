@@ -13,7 +13,10 @@
                 ID
             </th>
             <th>
-                Nome
+                Procedimento
+            </th>
+            <th>
+                Opções
             </th>
         </tr>
     </thead>
@@ -25,6 +28,16 @@
             </td>
             <td>
                 {{ especialidade.nome }}
+            </td>
+            <td>
+                    <a href="{% url 'medicos:especialidade_atualizar' especialidade.id %}" class="text-primary"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{% url 'medicos:especialidade_deletar' especialidade.id %}" class="mr-1 text-danger"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
             </td>
         </tr>
         {% endfor %}

@@ -18,7 +18,7 @@
                 <a href="{% url 'clientes:cliente_atualizar' %}" class="list-group-item"> Dados Complementares </a>
                 {#                  <a href="{% url 'clientes:consulta_list'%}" class="list-group-item">Minhas Consultas</a>#}
                 {% if request.user.is_staff or request.user.is_superuser %}
-                    <a href="{% url 'medicos:agenda_lista' %}" class="list-group-item">Agendas</a>
+                    <a href="{% url 'medicos:agenda_lista' %}" class="list-group-item">Agendamentos</a>
                     <a href="{% url 'medicos:medicos_lista' %}" class="list-group-item">Profissionais</a>
                     <a href="{% url 'medicos:especialidade_lista' %}" class="list-group-item">Procedimentos</a>
                     <a href="{% url 'medicos:cliente_lista' %}" class="list-group-item">Clientes</a>

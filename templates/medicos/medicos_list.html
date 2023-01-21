@@ -5,9 +5,9 @@
 {% endblock %}
 
 {% block accounts_container %}
-<h2>Profissionais</h2>
-<table class="table table-bordered">
-    <thead>
+    <h2>Profissionais</h2>
+    <table class="table table-bordered">
+        <thead>
         <tr>
             <th>
                 ID
@@ -21,25 +21,38 @@
             <th>
                 Telefone
             </th>
+            <th>
+                Opções
+            </th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         {% for medico in object_list %}
-        <tr>
-            <td>
-                <a href=""># {{ medico.pk }}</a>
-            </td>
-            <td>
-                {{ medico.nome }}
-            </td>
-            <td>
-                {{ medico.especialidade }}
-            </td>
-            <td>
-                {{ medico.telefone }}
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    <a href=""># {{ medico.pk }}</a>
+                </td>
+                <td>
+                    {{ medico.nome }}
+                </td>
+                <td>
+                    {{ medico.especialidade }}
+                </td>
+                <td>
+                    {{ medico.telefone }}
+                </td>
+                <td>
+                    <a href="{% url 'medicos:medico_atualizar' medico.id %}" class="text-primary"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{% url 'medicos:medico_deletar' medico.id %}" class="mr-1 text-danger"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
         {% endfor %}
-    </tbody>
-</table>
+        </tbody>
+    </table>
 {% endblock %}
