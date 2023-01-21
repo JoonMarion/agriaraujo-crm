@@ -1,6 +1,7 @@
+from django.http import request
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Medico, Agenda, Especialidade, Cliente
@@ -9,7 +10,7 @@ from .models import Medico, Agenda, Especialidade, Cliente
 class TestMixinIsAdmin(UserPassesTestMixin):
     def test_func(self):
         is_admin_or_is_staff = self.request.user.is_superuser or \
-            self.request.user.is_staff
+                               self.request.user.is_staff
         return bool(is_admin_or_is_staff)
 
     def handle_no_permission(self):
@@ -20,7 +21,6 @@ class TestMixinIsAdmin(UserPassesTestMixin):
 
 
 class MedicoCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
-
     model = Medico
     login_url = 'accounts:login'
     template_name = 'medicos/cadastro.html'
@@ -29,7 +29,6 @@ class MedicoCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
 
 
 class MedicoListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
-    
     login_url = 'accounts:login'
     template_name = 'medicos/medicos_list.html'
 
@@ -38,7 +37,6 @@ class MedicoListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
 
 
 class EspecialidadeCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
-
     model = Especialidade
     login_url = 'accounts:login'
     template_name = 'medicos/cadastro.html'
@@ -47,7 +45,6 @@ class EspecialidadeCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
 
 
 class EspecialidadeListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
-    
     login_url = 'accounts:login'
     template_name = 'medicos/especialidade_list.html'
 
@@ -56,7 +53,6 @@ class EspecialidadeListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
 
 
 class ClienteCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
-
     model = Cliente
     login_url = 'accounts:login'
     template_name = 'medicos/cadastro.html'
@@ -65,35 +61,32 @@ class ClienteCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
 
 
 class ClienteListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
+    login_url = 'accounts:login'
+    template_name = 'medicos/cliente_list.html'
 
-        login_url = 'accounts:login'
-        template_name = 'medicos/cliente_list.html'
-
-        def get_queryset(self):
-            return Cliente.objects.all().order_by('-pk')
+    def get_queryset(self):
+        return Cliente.objects.all().order_by('-pk')
 
 
 class AgendaCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
-
     model = Agenda
     login_url = 'accounts:login'
     template_name = 'medicos/agenda_cadastro.html'
     fields = ['medico', 'dia', 'horario', 'cliente']
     success_url = reverse_lazy('medicos:agenda_lista')
-    
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
 
 class AgendaUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
-
     model = Agenda
     login_url = 'accounts:login'
     template_name = 'medicos/agenda_cadastro.html'
     fields = ['medico', 'dia', 'horario', 'cliente']
     success_url = reverse_lazy('medicos:agenda_lista')
-    
+
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
@@ -110,12 +103,15 @@ class AgendaDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
 
 
 class AgendaListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
-    
     login_url = 'accounts:login'
     template_name = 'medicos/agenda_list.html'
 
     def get_queryset(self):
-        return Agenda.objects.filter().order_by('-pk')
+        search = self.request.GET.get('search')
+        if search:
+            return Agenda.objects.filter(dia__icontains=search).order_by('dia')
+        else:
+            return Agenda.objects.all().order_by('dia')
 
 
 medico_cadastro = MedicoCreateView.as_view()
@@ -128,4 +124,3 @@ agenda_cadastro = AgendaCreateView.as_view()
 agenda_atualizar = AgendaUpdateView.as_view()
 agenda_lista = AgendaListView.as_view()
 agenda_deletar = AgendaDeleteView.as_view()
-

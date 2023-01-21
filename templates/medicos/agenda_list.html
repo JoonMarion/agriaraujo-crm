@@ -1,19 +1,30 @@
 {% extends "accounts/index.html" %}
 
 {% block title %}
-    Agendas
+    Agendamentos
 {% endblock %}
 
 {% block accounts_container %}
-<h2>Agendas Disponíveis</h2>
-<table class="table table-bordered">
-    <thead>
+    <h2>Agendamentos</h2>
+    <form method="GET">
+        <div style="display: flex; margin: 20px 0 20px 0;">
+            <input type="text" class="form-control" placeholder="Buscar pelo nome do cliente" name="search"
+                   id="search">
+            <button class="btn btn-primary input-group-text" type="submit">Buscar</button>
+        </div>
+    </form>
+
+    <table class="table table-bordered">
+        <thead>
         <tr>
             <th>
                 ID
             </th>
             <th>
                 Especialista
+            </th>
+            <th>
+                Cliente
             </th>
             <th>
                 Dia
@@ -25,32 +36,37 @@
                 Opções
             </th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         {% for consulta in object_list %}
-        <tr>
-            <td>
-                <a href=""># {{ consulta.pk }}</a>
-            </td>
-            <td>
-                {{ consulta.medico }}
-            </td>
-            <td>
-                {{ consulta.dia|date:"d/m/Y" }}
-            </td>
-            <td>
-                {{ consulta.get_horario_display }}
-            </td>
-            <td>
-                <a href="{% url 'medicos:agendar_consulta_atualizar' consulta.id %}" class="text-primary" style="padding-left: 10px; text-decoration: none;">
-                    <i class="fas fa-edit"></i>
-                </a>
-                <a href="{% url 'medicos:agendar_consulta_deletar' consulta.id %}" class="mr-1 text-danger" style="padding-left: 10px; text-decoration: none;">
-                    <i class="fas fa-trash-alt"></i>
-                </a>
-            </td>
-        </tr>
+            <tr>
+                <td>
+                    <a href=""># {{ consulta.pk }}</a>
+                </td>
+                <td>
+                    {{ consulta.medico }}
+                </td>
+                <td>
+                    {{ consulta.cliente }}
+                </td>
+                <td>
+                    {{ consulta.dia|date:"d/m/Y" }}
+                </td>
+                <td>
+                    {{ consulta.get_horario_display }}
+                </td>
+                <td>
+                    <a href="{% url 'medicos:agendar_consulta_atualizar' consulta.id %}" class="text-primary"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a href="{% url 'medicos:agendar_consulta_deletar' consulta.id %}" class="mr-1 text-danger"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-trash-alt"></i>
+                    </a>
+                </td>
+            </tr>
         {% endfor %}
-    </tbody>
-</table>
+        </tbody>
+    </table>
 {% endblock %}
