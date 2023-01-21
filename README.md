@@ -1,9 +1,8 @@
 ## Projeto de Sistema de Agendamento
 
 No que consite este projeto:
-- Administrar consultas, especialidade e agendas
-- Criar uma agenda para disponibilizar as consultas
-- Permitir o usuário escolher um consulta em dia e horario de acordo com agenda do especialista.
+- Administrar profissionais, procedimentos e clientes
+- Criar agenda atrelado as partes do sistema
 
 ## Configurando o ambiente para executar a aplicação web.
 Faça o download deste repositorio:
