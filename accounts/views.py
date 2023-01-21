@@ -51,6 +51,7 @@ class RegisterView(CreateView):
         )
         return super().form_valid(form)
 
+
 def password_reset_request(request):
     if request.method == 'POST':
         form = PasswordResetForm(request.POST)
@@ -91,6 +92,7 @@ def password_reset_request(request):
             "form":form,
         })
 
+
 class UpdateUserView(LoginRequiredMixin, UpdateView):
 
     model = User
@@ -118,8 +120,6 @@ class UpdatePasswordView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         form.save()
         return super(UpdatePasswordView, self).form_valid(form)
-
-
 
 
 login = Login.as_view()

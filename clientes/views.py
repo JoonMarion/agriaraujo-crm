@@ -17,7 +17,8 @@ class ClienteCreateView(LoginRequiredMixin ,CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
-    
+
+
 class ClienteUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Cliente
@@ -59,7 +60,8 @@ class ConsultaCreateView(LoginRequiredMixin, CreateView):
             return HttpResponseRedirect(reverse_lazy('clientes:cliente_cadastro'))
         messages.info(self.request, 'Consulta marcada com sucesso!')
         return HttpResponseRedirect(reverse_lazy('clientes:consulta_list'))
-    
+
+
 class ConsultaUpdateView(LoginRequiredMixin, UpdateView):
 
     model = Consulta
@@ -71,7 +73,8 @@ class ConsultaUpdateView(LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.instance.cliente = Cliente.objects.get(user=self.request.user)
         return super().form_valid(form)
-    
+
+
 class ConsultaDeleteView(LoginRequiredMixin, DeleteView):
     model = Consulta
     success_url = reverse_lazy('clientes:consulta_list')

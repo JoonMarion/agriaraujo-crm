@@ -5,6 +5,7 @@ from django.core.validators import RegexValidator
 from django.db import models
 from medicos.models import Agenda
 
+
 class Cliente(models.Model):
     SEXO = (
         ("MAS", "Maculino"),
@@ -16,7 +17,7 @@ class Cliente(models.Model):
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,15}$',
         message="O número precisa estar neste formato: \
-                        '+99 99 9999-0000'.")
+                        '91988887777'.")
 
     telefone = models.CharField(verbose_name="Telefone",
                                 validators=[phone_regex],
