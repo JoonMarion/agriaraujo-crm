@@ -1,11 +1,11 @@
 {% extends "accounts/index.html" %}
 
 {% block title %}
-    Medicos
+    Profissionais
 {% endblock %}
 
 {% block accounts_container %}
-<h2>Especialistas</h2>
+<h2>Profissionais</h2>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -16,10 +16,7 @@
                 Nome
             </th>
             <th>
-                E-mail
-            </th>
-            <th>
-                Especialidade
+                Profissionais
             </th>
             <th>
                 Telefone
@@ -34,9 +31,6 @@
             </td>
             <td>
                 {{ medico.nome }}
-            </td>
-            <td>
-                {{ medico.email }}
             </td>
             <td>
                 {{ medico.especialidade }}

@@ -34,7 +34,8 @@ class Cliente(models.Model):
     
     def __str__(self):
         return f'{self.user.name}'
-    
+
+
 class Consulta(models.Model):
     agenda =  OneToOneField(Agenda, on_delete=models.CASCADE, related_name='consulta')
     cliente = ForeignKey(Cliente, on_delete=models.CASCADE, related_name='consulta')

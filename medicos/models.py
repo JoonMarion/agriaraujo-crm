@@ -15,7 +15,6 @@ class Especialidade(models.Model):
 
 class Medico(models.Model):
     nome = models.CharField(verbose_name="Nome", max_length=200)
-    email = models.EmailField(verbose_name="Email")
     phone_regex = RegexValidator(
     regex=r'^\+?1?\d{9,15}$',
     message="O número precisa estar neste formato: \
@@ -24,10 +23,28 @@ class Medico(models.Model):
     telefone = models.CharField(verbose_name="Telefone",
                                 validators=[phone_regex],
                                 max_length=17, null=True, blank=True)
+
     especialidade = ForeignKey(Especialidade,
                                on_delete=models.CASCADE,
                                related_name='medicos')
     
+    def __str__(self):
+        return f'{self.nome}'
+
+
+class Cliente(models.Model):
+
+    nome = models.CharField(verbose_name="Nome", max_length=200)
+
+    phone_regex = RegexValidator(
+        regex=r'^\+?1?\d{9,15}$',
+        message="O número precisa estar neste formato: \
+                        '91988887777'.")
+
+    telefone = models.CharField(verbose_name="Telefone",
+                                validators=[phone_regex],
+                                max_length=17, null=True, blank=True)
+
     def __str__(self):
         return f'{self.nome}'
 
@@ -41,21 +58,23 @@ def validar_dia(value):
 
 
 class Agenda(models.Model):
-    medico = ForeignKey(Medico, on_delete=models.CASCADE, related_name='agenda', verbose_name='Especialista')
+    medico = ForeignKey(Medico, on_delete=models.CASCADE, related_name='agenda', verbose_name='Profissional')
+
+    cliente = ForeignKey(Cliente, on_delete=models.CASCADE, related_name='agenda', verbose_name='Cliente')
+
     dia = models.DateField(help_text="Insira uma data para agenda", validators=[validar_dia])
     
     HORARIOS = (
-        ("1", "07:00 ás 08:00"),
-        ("2", "08:00 ás 09:00"),
-        ("3", "09:00 ás 10:00"),
-        ("4", "10:00 ás 11:00"),
-        ("5", "11:00 ás 12:00"),
-        ("6", "12:00 ás 13:00"),
-        ("7", "13:00 ás 14:00"),
-        ("8", "14:00 ás 15:00"),
-        ("9", "15:00 ás 16:00"),
-        ("10", "16:00 ás 17:00"),
-        ("11", "17:00 ás 18:00"),
+        ("1", "08:00 ás 09:00"),
+        ("2", "09:00 ás 10:00"),
+        ("3", "10:00 ás 11:00"),
+        ("4", "11:00 ás 12:00"),
+        ("5", "12:00 ás 13:00"),
+        ("6", "13:00 ás 14:00"),
+        ("7", "14:00 ás 15:00"),
+        ("8", "15:00 ás 16:00"),
+        ("9", "16:00 ás 17:00"),
+        ("10", "17:00 ás 18:00"),
     )
 
     horario = models.CharField(max_length=10, choices=HORARIOS, verbose_name='Horário')
@@ -70,4 +89,4 @@ class Agenda(models.Model):
         unique_together = ('horario', 'dia')
         
     def __str__(self):
-        return f'{self.dia.strftime("%b %d %Y")} - {self.get_horario_display()} - {self.medico}'
+        return f'{self.dia.strftime("%b %d %Y")} - {self.get_horario_display()} - {self.medico} - {self.cliente}'

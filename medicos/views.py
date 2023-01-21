@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Medico, Agenda, Especialidade
+from .models import Medico, Agenda, Especialidade, Cliente
 
 
 class TestMixinIsAdmin(UserPassesTestMixin):
@@ -24,7 +24,7 @@ class MedicoCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
     model = Medico
     login_url = 'accounts:login'
     template_name = 'medicos/cadastro.html'
-    fields = ['nome', 'email', 'telefone', 'especialidade']
+    fields = ['nome', 'telefone', 'especialidade']
     success_url = reverse_lazy('medicos:medicos_lista')
 
 
@@ -55,12 +55,30 @@ class EspecialidadeListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
         return Especialidade.objects.all().order_by('-pk')
 
 
+class ClienteCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
+
+    model = Cliente
+    login_url = 'accounts:login'
+    template_name = 'medicos/cadastro.html'
+    fields = ['nome', 'telefone']
+    success_url = reverse_lazy('medicos:cliente_lista')
+
+
+class ClienteListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
+
+        login_url = 'accounts:login'
+        template_name = 'medicos/cliente_list.html'
+
+        def get_queryset(self):
+            return Cliente.objects.all().order_by('-pk')
+
+
 class AgendaCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
 
     model = Agenda
     login_url = 'accounts:login'
     template_name = 'medicos/agenda_cadastro.html'
-    fields = ['medico', 'dia', 'horario']
+    fields = ['medico', 'dia', 'horario', 'cliente']
     success_url = reverse_lazy('medicos:agenda_lista')
     
     def form_valid(self, form):
@@ -73,7 +91,7 @@ class AgendaUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
     model = Agenda
     login_url = 'accounts:login'
     template_name = 'medicos/agenda_cadastro.html'
-    fields = ['medico', 'dia', 'horario']
+    fields = ['medico', 'dia', 'horario', 'cliente']
     success_url = reverse_lazy('medicos:agenda_lista')
     
     def form_valid(self, form):
@@ -104,6 +122,8 @@ medico_cadastro = MedicoCreateView.as_view()
 medico_lista = MedicoListView.as_view()
 especialidade_cadastro = EspecialidadeCreateView.as_view()
 especialidade_lista = EspecialidadeListView.as_view()
+cliente_cadastro = ClienteCreateView.as_view()
+cliente_lista = ClienteListView.as_view()
 agenda_cadastro = AgendaCreateView.as_view()
 agenda_atualizar = AgendaUpdateView.as_view()
 agenda_lista = AgendaListView.as_view()

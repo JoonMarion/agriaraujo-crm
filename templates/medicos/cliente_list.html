@@ -1,11 +1,11 @@
 {% extends "accounts/index.html" %}
 
 {% block title %}
-   Procedimentos
+   Cliente
 {% endblock %}
 
 {% block accounts_container %}
-<h2>Procedimentos</h2>
+<h2>Clientes</h2>
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -15,16 +15,22 @@
             <th>
                 Nome
             </th>
+            <th>
+                Telefone
+            </th>
         </tr>
     </thead>
     <tbody>
-        {% for especialidade in object_list %}
+        {% for cliente in object_list %}
         <tr>
             <td>
-                <a href=""># {{ especialidade.pk }}</a>
+                <a href=""># {{ cliente.pk }}</a>
             </td>
             <td>
-                {{ especialidade.nome }}
+                {{ cliente.nome }}
+            </td>
+            <td>
+                {{ cliente.telefone }}
             </td>
         </tr>
         {% endfor %}
