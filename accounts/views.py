@@ -20,7 +20,7 @@ from .forms import UserAdminCreationForm
 
 class IndexView(LoginRequiredMixin, DetailView):
     model = User
-    template_name = 'accounts/index.html'
+    template_name = 'accounts/home.html'
     login_url = reverse_lazy('accounts:login')
     
     def get_object(self):

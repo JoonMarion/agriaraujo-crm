@@ -28,16 +28,16 @@
                     {#                        <a href="{% url 'clientes:consulta_create' %}">Agendar Consulta</a>#}
                     {#                    </li>#}
                     <li>
-                        <a href="{% url 'medicos:especialidade_cadastro' %}">Procedimento</a>
+                        <a href="{% url 'medicos:especialidade_lista' %}">Procedimento</a>
                     </li>
                     <li>
-                        <a href="{% url 'medicos:medico_cadastro' %}">Profissional</a>
+                        <a href="{% url 'medicos:medicos_lista' %}">Profissional</a>
                     </li>
                     <li>
-                        <a href="{% url 'medicos:cliente_cadastro' %}">Cliente</a>
+                        <a href="{% url 'medicos:cliente_lista' %}">Cliente</a>
                     </li>
                     <li>
-                        <a href="{% url 'medicos:agendar_consulta' %}">Agendar</a>
+                        <a href="{% url 'medicos:agenda_lista' %}">Agendar</a>
                     </li>
                 {% endif %}
             </ul>
@@ -48,6 +48,7 @@
                 {% else %}
                     <li><a href="{% url 'accounts:login' %}">Entrar</a></li>
                     {#<li><a href="{% url 'accounts:register' %}">Registro</a></li>#}
+
                 {% endif %}
             </ul>
         </div>

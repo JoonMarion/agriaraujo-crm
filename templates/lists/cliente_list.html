@@ -1,11 +1,11 @@
-{% extends "accounts/index.html" %}
+{% extends "base.html" %}
 
 {% block title %}
-    Profissionais
+    Cliente
 {% endblock %}
 
-{% block accounts_container %}
-    <h2>Profissionais</h2>
+{% block container %}
+<h2>Clientes</h2>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -16,9 +16,6 @@
                 Nome
             </th>
             <th>
-                Profissionais
-            </th>
-            <th>
                 Telefone
             </th>
             <th>
@@ -27,26 +24,23 @@
         </tr>
         </thead>
         <tbody>
-        {% for medico in object_list %}
+        {% for cliente in object_list %}
             <tr>
                 <td>
-                    <a href=""># {{ medico.pk }}</a>
+                    <a href=""># {{ cliente.pk }}</a>
                 </td>
                 <td>
-                    {{ medico.nome }}
+                    {{ cliente.nome }}
                 </td>
                 <td>
-                    {{ medico.especialidade }}
+                    {{ cliente.telefone }}
                 </td>
                 <td>
-                    {{ medico.telefone }}
-                </td>
-                <td>
-                    <a href="{% url 'medicos:medico_atualizar' medico.id %}" class="text-primary"
+                    <a href="{% url 'medicos:cliente_atualizar' cliente.id %}" class="text-primary"
                        style="padding-left: 10px; text-decoration: none;">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a href="{% url 'medicos:medico_deletar' medico.id %}" class="mr-1 text-danger"
+                    <a href="{% url 'medicos:cliente_deletar' cliente.id %}" class="mr-1 text-danger"
                        style="padding-left: 10px; text-decoration: none;">
                         <i class="fas fa-trash-alt"></i>
                     </a>

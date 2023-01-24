@@ -23,7 +23,7 @@ class TestMixinIsAdmin(UserPassesTestMixin):
 class MedicoCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
     model = Medico
     login_url = 'accounts:login'
-    template_name = 'medicos/cadastro.html'
+    template_name = 'form.html'
     fields = ['nome', 'telefone', 'especialidade']
     success_url = reverse_lazy('medicos:medicos_lista')
 
@@ -31,7 +31,7 @@ class MedicoCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
 class MedicoUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
     model = Medico
     login_url = 'accounts:login'
-    template_name = 'medicos/cadastro.html'
+    template_name = 'form.html'
     fields = ['nome', 'telefone', 'especialidade']
     success_url = reverse_lazy('medicos:medicos_lista')
 
@@ -42,7 +42,7 @@ class MedicoUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
 
 class MedicoListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
     login_url = 'accounts:login'
-    template_name = 'medicos/medicos_list.html'
+    template_name = 'lists/medicos_list.html'
 
     def get_queryset(self):
         return Medico.objects.all().order_by('-pk')
@@ -61,7 +61,7 @@ class MedicoDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
 class EspecialidadeCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
     model = Especialidade
     login_url = 'accounts:login'
-    template_name = 'medicos/cadastro.html'
+    template_name = 'form.html'
     fields = ['nome']
     success_url = reverse_lazy('medicos:especialidade_lista')
 
@@ -69,7 +69,7 @@ class EspecialidadeCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
 class EspecialidadeUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
     model = Especialidade
     login_url = 'accounts:login'
-    template_name = 'medicos/cadastro.html'
+    template_name = 'form.html'
     fields = ['nome']
     success_url = reverse_lazy('medicos:especialidade_lista')
 
@@ -80,7 +80,7 @@ class EspecialidadeUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
 
 class EspecialidadeListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
     login_url = 'accounts:login'
-    template_name = 'medicos/especialidade_list.html'
+    template_name = 'lists/especialidade_list.html'
 
     def get_queryset(self):
         return Especialidade.objects.all().order_by('-pk')
@@ -99,7 +99,7 @@ class EspecialidadeDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
 class ClienteCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
     model = Cliente
     login_url = 'accounts:login'
-    template_name = 'medicos/cadastro.html'
+    template_name = 'form.html'
     fields = ['nome', 'telefone']
     success_url = reverse_lazy('medicos:cliente_lista')
 
@@ -107,7 +107,7 @@ class ClienteCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
 class ClienteUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
     model = Cliente
     login_url = 'accounts:login'
-    template_name = 'medicos/cadastro.html'
+    template_name = 'form.html'
     fields = ['nome', 'telefone']
     success_url = reverse_lazy('medicos:cliente_lista')
 
@@ -128,7 +128,7 @@ class ClienteDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
 
 class ClienteListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
     login_url = 'accounts:login'
-    template_name = 'medicos/cliente_list.html'
+    template_name = 'lists/cliente_list.html'
 
     def get_queryset(self):
         return Cliente.objects.all().order_by('-pk')
@@ -137,7 +137,7 @@ class ClienteListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
 class AgendaCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
     model = Agenda
     login_url = 'accounts:login'
-    template_name = 'medicos/agenda_cadastro.html'
+    template_name = 'form_agenda.html'
     fields = ['medico', 'dia', 'horario', 'cliente']
     success_url = reverse_lazy('medicos:agenda_lista')
 
@@ -149,7 +149,7 @@ class AgendaCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
 class AgendaUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
     model = Agenda
     login_url = 'accounts:login'
-    template_name = 'medicos/agenda_cadastro.html'
+    template_name = 'form_agenda.html'
     fields = ['medico', 'dia', 'horario', 'cliente']
     success_url = reverse_lazy('medicos:agenda_lista')
 
@@ -170,7 +170,7 @@ class AgendaDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
 
 class AgendaListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
     login_url = 'accounts:login'
-    template_name = 'medicos/agenda_list.html'
+    template_name = 'lists/agenda_list.html'
 
     def get_queryset(self):
         search = self.request.GET.get('search')

@@ -10,7 +10,7 @@ from .models import Cliente, Consulta
 class ClienteCreateView(LoginRequiredMixin ,CreateView):
     
     model = Cliente
-    template_name = 'clientes/cadastro.html'
+    template_name = 'form.html'
     fields = ['sexo', 'telefone', 'cpf']
     success_url = reverse_lazy('index')
     
