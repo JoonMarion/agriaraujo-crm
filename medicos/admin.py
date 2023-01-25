@@ -15,7 +15,7 @@ class MedicoAdmin(admin.ModelAdmin):
 
 class AgendaAdmin(admin.ModelAdmin):
     list_display = [
-        'dia', 'medico', 'horario', 'cliente',
+        'dia', 'medico', 'horario', 'cliente', 'procedimento'
     ]
 
 

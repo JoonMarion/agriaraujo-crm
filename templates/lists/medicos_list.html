@@ -5,7 +5,14 @@
 {% endblock %}
 
 {% block container %}
-    <h2>Profissionais</h2>
+    <div class="row">
+        <div class="col-md-8"><h2>Profissionais</h2></div>
+        <div class="col-md-4 text-right" style="margin-top: 21px; margin-bottom: 10.5px;">
+            <a href="{% url 'medicos:medico_cadastro' %}" class="btn btn-primary input-group-text">
+                Cadastrar
+            </a>
+        </div>
+    </div>
     <table class="table table-bordered">
         <thead>
         <tr>
@@ -14,9 +21,6 @@
             </th>
             <th>
                 Nome
-            </th>
-            <th>
-                Profissionais
             </th>
             <th>
                 Telefone
@@ -34,9 +38,6 @@
                 </td>
                 <td>
                     {{ medico.nome }}
-                </td>
-                <td>
-                    {{ medico.especialidade }}
                 </td>
                 <td>
                     {{ medico.telefone }}

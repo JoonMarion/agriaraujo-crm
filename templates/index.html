@@ -1,9 +1,9 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
 {% block container %}
 
     <div class="jumbotron page-header">
-        <h1>Agenda Personalità Clin</h1>
-        <p>Agendamento de consultas e cadastro de clientes.</p>
+        <h1>Agenda do dia Personalità Clin</h1>
+        <h3>{% now "SHORT_DATE_FORMAT" %}</h3>
     </div>
 
     {% include 'lists/agenda_list.html' %}

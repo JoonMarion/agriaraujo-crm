@@ -1,3 +1,5 @@
+from datetime import date
+from django.db.models import Q
 from django.http import request
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -20,11 +22,26 @@ class TestMixinIsAdmin(UserPassesTestMixin):
         return redirect("accounts:index")
 
 
+class IndexView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
+    login_url = 'accounts:login'
+    template_name = 'index.html'
+
+    today = date.today()
+
+    def get_queryset(self):
+        search = self.request.GET.get('search')
+        if search:
+            return Agenda.objects.filter(dia=self.today).filter(Q(dia__icontains=search) | Q(cliente__nome__icontains=search) | Q(
+                medico__nome__icontains=search)).order_by('dia')
+        else:
+            return Agenda.objects.filter(dia=self.today).order_by('horario')
+
+
 class MedicoCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
     model = Medico
     login_url = 'accounts:login'
     template_name = 'form.html'
-    fields = ['nome', 'telefone', 'especialidade']
+    fields = ['nome', 'telefone']
     success_url = reverse_lazy('medicos:medicos_lista')
 
 
@@ -45,7 +62,7 @@ class MedicoListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
     template_name = 'lists/medicos_list.html'
 
     def get_queryset(self):
-        return Medico.objects.all().order_by('-pk')
+        return Medico.objects.all().order_by('nome')
 
 
 class MedicoDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
@@ -83,7 +100,7 @@ class EspecialidadeListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
     template_name = 'lists/especialidade_list.html'
 
     def get_queryset(self):
-        return Especialidade.objects.all().order_by('-pk')
+        return Especialidade.objects.all().order_by('nome')
 
 
 class EspecialidadeDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
@@ -131,14 +148,14 @@ class ClienteListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
     template_name = 'lists/cliente_list.html'
 
     def get_queryset(self):
-        return Cliente.objects.all().order_by('-pk')
+        return Cliente.objects.all().order_by('nome')
 
 
 class AgendaCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
     model = Agenda
     login_url = 'accounts:login'
     template_name = 'form_agenda.html'
-    fields = ['medico', 'dia', 'horario', 'cliente']
+    fields = ['medico', 'dia', 'horario', 'cliente', 'procedimento']
     success_url = reverse_lazy('medicos:agenda_lista')
 
     def form_valid(self, form):
@@ -150,7 +167,7 @@ class AgendaUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
     model = Agenda
     login_url = 'accounts:login'
     template_name = 'form_agenda.html'
-    fields = ['medico', 'dia', 'horario', 'cliente']
+    fields = ['medico', 'dia', 'horario', 'cliente', 'procedimento']
     success_url = reverse_lazy('medicos:agenda_lista')
 
     def form_valid(self, form):
@@ -175,7 +192,7 @@ class AgendaListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
     def get_queryset(self):
         search = self.request.GET.get('search')
         if search:
-            return Agenda.objects.filter(dia__icontains=search).order_by('dia')
+            return Agenda.objects.filter(Q(dia__icontains=search) | Q(cliente__nome__icontains=search) | Q(medico__nome__icontains=search)).order_by('dia')
         else:
             return Agenda.objects.all().order_by('dia')
 

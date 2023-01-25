@@ -8,7 +8,10 @@ from django.db.models.fields.related import ForeignKey
 
 class Especialidade(models.Model):
     nome = models.CharField(verbose_name="Nome", max_length=200)
-    
+
+    class Meta:
+        ordering = ['nome']
+
     def __str__(self):
         return f'{self.nome}'
 
@@ -16,24 +19,22 @@ class Especialidade(models.Model):
 class Medico(models.Model):
     nome = models.CharField(verbose_name="Nome", max_length=200)
     phone_regex = RegexValidator(
-    regex=r'^\+?1?\d{9,15}$',
-    message="O número precisa estar neste formato: \
+        regex=r'^\+?1?\d{9,15}$',
+        message="O número precisa estar neste formato: \
                     '91988887777'.")
 
     telefone = models.CharField(verbose_name="Telefone",
                                 validators=[phone_regex],
                                 max_length=17, null=True, blank=True)
 
-    especialidade = ForeignKey(Especialidade,
-                               on_delete=models.CASCADE,
-                               related_name='medicos')
-    
+    class Meta:
+        ordering = ['nome']
+
     def __str__(self):
         return f'{self.nome}'
 
 
 class Cliente(models.Model):
-
     nome = models.CharField(verbose_name="Nome", max_length=200)
 
     phone_regex = RegexValidator(
@@ -44,6 +45,9 @@ class Cliente(models.Model):
     telefone = models.CharField(verbose_name="Telefone",
                                 validators=[phone_regex],
                                 max_length=17, null=True, blank=True)
+
+    class Meta:
+        ordering = ['nome']
 
     def __str__(self):
         return f'{self.nome}'
@@ -63,7 +67,9 @@ class Agenda(models.Model):
     cliente = ForeignKey(Cliente, on_delete=models.CASCADE, related_name='agenda', verbose_name='Cliente')
 
     dia = models.DateField(help_text="Insira uma data para agenda", validators=[validar_dia])
-    
+
+    procedimento = models.ForeignKey(Especialidade, on_delete=models.CASCADE, related_name='agenda', verbose_name='Procedimento', default=None)
+
     HORARIOS = (
         ("1", "08:00 ás 09:00"),
         ("2", "09:00 ás 10:00"),
@@ -78,15 +84,15 @@ class Agenda(models.Model):
     )
 
     horario = models.CharField(max_length=10, choices=HORARIOS, verbose_name='Horário')
-    
+
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, 
-        verbose_name='Usuário', 
+        settings.AUTH_USER_MODEL,
+        verbose_name='Usuário',
         on_delete=models.CASCADE
     )
 
     class Meta:
         unique_together = ('horario', 'dia')
-        
+
     def __str__(self):
         return f'{self.dia.strftime("%b %d %Y")} - {self.get_horario_display()} - {self.medico} - {self.cliente}'

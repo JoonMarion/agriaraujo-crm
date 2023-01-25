@@ -42,6 +42,17 @@
                             {% endfor %}
                         </div>
                     </div>
+                    <div class="form-group{% if form.procedimento.errors %} has-error{% endif %}">
+                        <label for="{{ form.procedimento.auto_id }}" class="col-md-3 control-label">
+                            {{ form.procedimento.label }}</label>
+                        <div class="col-md-9">
+                            {% render_field form.procedimento class="form-control" %}
+
+                            {% for error in form.procedimento.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
                     <div class="form-group{% if form.dia.errors %} has-error{% endif %}">
                         <label for="{{ form.dia.auto_ud }}" class="col-md-3 control-label">
                             {{ form.dia.label }}</label>
