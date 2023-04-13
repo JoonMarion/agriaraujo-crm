@@ -46,6 +46,8 @@ class Cliente(models.Model):
                                 validators=[phone_regex],
                                 max_length=17, null=True, blank=True)
 
+    avaliacao = models.TextField(verbose_name="Avaliação", null=True, blank=True)
+
     class Meta:
         ordering = ['nome']
 
@@ -66,24 +68,11 @@ class Agenda(models.Model):
 
     cliente = ForeignKey(Cliente, on_delete=models.CASCADE, related_name='agenda', verbose_name='Cliente')
 
-    dia = models.DateField(help_text="Insira uma data para agenda", validators=[validar_dia])
+    data = models.DateField(help_text="Insira uma data para agenda", validators=[validar_dia])
 
     procedimento = models.ForeignKey(Especialidade, on_delete=models.CASCADE, related_name='agenda', verbose_name='Procedimento', default=None)
 
-    HORARIOS = (
-        ("1", "08:00 ás 09:00"),
-        ("2", "09:00 ás 10:00"),
-        ("3", "10:00 ás 11:00"),
-        ("4", "11:00 ás 12:00"),
-        ("5", "12:00 ás 13:00"),
-        ("6", "13:00 ás 14:00"),
-        ("7", "14:00 ás 15:00"),
-        ("8", "15:00 ás 16:00"),
-        ("9", "16:00 ás 17:00"),
-        ("10", "17:00 ás 18:00"),
-    )
-
-    horario = models.CharField(max_length=10, choices=HORARIOS, verbose_name='Horário')
+    horario = models.CharField(verbose_name="Horário", max_length=30, default=None)
 
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -92,7 +81,16 @@ class Agenda(models.Model):
     )
 
     class Meta:
-        unique_together = ('horario', 'dia')
+        unique_together = ('horario', 'data')
 
     def __str__(self):
-        return f'{self.dia.strftime("%b %d %Y")} - {self.get_horario_display()} - {self.medico} - {self.cliente}'
+        return f'{self.data.strftime("%b %d %Y")} - {self.get_horario_display()} - {self.medico} - {self.cliente}'
+
+
+class Relatorio(models.Model):
+
+    relatorio = models.TextField(verbose_name="Relatório", null=True, blank=True)
+    data = models.DateField(help_text="Insira uma data para agenda", validators=[validar_dia], null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.data.strftime("%b %d %Y")}'

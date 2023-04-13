@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from .models import Medico, Agenda, Especialidade, Cliente
+from .models import Medico, Agenda, Especialidade, Cliente, Relatorio
 
 
 class TestMixinIsAdmin(UserPassesTestMixin):
@@ -125,7 +125,7 @@ class ClienteUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
     model = Cliente
     login_url = 'accounts:login'
     template_name = 'form.html'
-    fields = ['nome', 'telefone']
+    fields = ['nome', 'telefone', 'avaliacao']
     success_url = reverse_lazy('medicos:cliente_lista')
 
     def form_valid(self, form):
@@ -155,7 +155,7 @@ class AgendaCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
     model = Agenda
     login_url = 'accounts:login'
     template_name = 'form_agenda.html'
-    fields = ['medico', 'dia', 'horario', 'cliente', 'procedimento']
+    fields = ['medico', 'data', 'horario', 'cliente', 'procedimento']
     success_url = reverse_lazy('medicos:agenda_lista')
 
     def form_valid(self, form):
@@ -167,7 +167,7 @@ class AgendaUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
     model = Agenda
     login_url = 'accounts:login'
     template_name = 'form_agenda.html'
-    fields = ['medico', 'dia', 'horario', 'cliente', 'procedimento']
+    fields = ['medico', 'data', 'horario', 'cliente', 'procedimento']
     success_url = reverse_lazy('medicos:agenda_lista')
 
     def form_valid(self, form):
@@ -192,9 +192,51 @@ class AgendaListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
     def get_queryset(self):
         search = self.request.GET.get('search')
         if search:
-            return Agenda.objects.filter(Q(dia__icontains=search) | Q(cliente__nome__icontains=search) | Q(medico__nome__icontains=search)).order_by('dia')
+            return Agenda.objects.filter(Q(dia__icontains=search) | Q(cliente__nome__icontains=search) | Q(medico__nome__icontains=search)).order_by('data')
         else:
-            return Agenda.objects.all().order_by('dia')
+            return Agenda.objects.all().order_by('data')
+
+
+class RelatorioCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
+    model = Relatorio
+    login_url = 'accounts:login'
+    template_name = 'form_relatorio.html'
+    fields = ['data', 'relatorio']
+    success_url = reverse_lazy('medicos:relatorio_lista')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class RelatorioUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
+    model = Relatorio
+    login_url = 'accounts:login'
+    template_name = 'form.html'
+    fields = ['data', 'relatorio']
+    success_url = reverse_lazy('medicos:relatorio_lista')
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class RelatorioListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
+    login_url = 'accounts:login'
+    template_name = 'lists/relatorio_list.html'
+
+    def get_queryset(self):
+        return Relatorio.objects.all().order_by('data')
+
+
+class RelatorioDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
+    model = Relatorio
+    success_url = reverse_lazy('medicos:relatorio_lista')
+    template_name = 'form_delete.html'
+
+    def get_success_url(self):
+        messages.success(self.request, "Procedimento excluído com sucesso!")
+        return reverse_lazy('medicos:especialidade_lista')
 
 
 medico_cadastro = MedicoCreateView.as_view()
@@ -216,3 +258,8 @@ agenda_cadastro = AgendaCreateView.as_view()
 agenda_atualizar = AgendaUpdateView.as_view()
 agenda_lista = AgendaListView.as_view()
 agenda_deletar = AgendaDeleteView.as_view()
+
+relatorio_cadastro = RelatorioCreateView.as_view()
+relatorio_atualizar = RelatorioUpdateView.as_view()
+relatorio_lista = RelatorioListView.as_view()
+relatorio_deletar = RelatorioDeleteView.as_view()

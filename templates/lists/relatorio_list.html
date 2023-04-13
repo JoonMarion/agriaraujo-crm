@@ -1,59 +1,45 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Clientes
+    Relatórios
 {% endblock %}
 
 {% block container %}
     <div class="row">
-        <div class="col-md-8"><h2>Clientes</h2></div>
+        <div class="col-md-8"><h2>Relatórios</h2></div>
         <div class="col-md-4 text-right" style="margin-top: 21px; margin-bottom: 10.5px;">
-            <a href="{% url 'medicos:cliente_cadastro' %}" class="btn btn-primary input-group-text">
+            <a href="{% url 'medicos:relatorio_cadastro' %}" class="btn btn-primary input-group-text">
                 Cadastrar
             </a>
         </div>
     </div>
+
     <table class="table table-bordered">
         <thead>
         <tr>
             <th>
-                ID
+                Data
             </th>
             <th>
-                Nome
-            </th>
-            <th>
-                Telefone
-            </th>
-            <th>
-                Avaliação
-            </th>
-            <th>
-                Opções
+                Relatório
             </th>
         </tr>
         </thead>
         <tbody>
-        {% for cliente in object_list %}
+        {% for relatorio in object_list %}
             <tr>
                 <td>
-                    <a href=""># {{ cliente.pk }}</a>
+                    {{ relatorio.data }}
                 </td>
                 <td>
-                    {{ cliente.nome }}
+                    {{ relatorio.relatorio }}
                 </td>
                 <td>
-                    {{ cliente.telefone }}
-                </td>
-                <td style="max-width: 700px; word-wrap:break-word;">
-                    <div>{{ cliente.avaliacao }}</div>
-                </td>
-                <td>
-                    <a href="{% url 'medicos:cliente_atualizar' cliente.id %}" class="text-primary"
+                    <a href="{% url 'medicos:relatorio_atualizar' relatorio.id %}" class="text-primary"
                        style="padding-left: 10px; text-decoration: none;">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a href="{% url 'medicos:cliente_deletar' cliente.id %}" class="mr-1 text-danger"
+                    <a href="{% url 'medicos:relatorio_deletar' relatorio.id %}" class="mr-1 text-danger"
                        style="padding-left: 10px; text-decoration: none;">
                         <i class="fas fa-trash-alt"></i>
                     </a>

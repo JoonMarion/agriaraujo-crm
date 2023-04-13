@@ -22,6 +22,11 @@ urlpatterns = [
 
     path('minhas/consultas/', views.agenda_lista, name="agenda_lista"),
 
+    path('admin/lista/relatorios', views.relatorio_lista, name="relatorio_lista"),
+    path('registro/relatorio/', views.relatorio_cadastro, name='relatorio_cadastro'),
+    path('atualizar/relatorio/<int:pk>', views.relatorio_atualizar, name='relatorio_atualizar'),
+    path('apagar/relatorio/<int:pk>', views.relatorio_deletar, name='relatorio_deletar'),
+
     path('admin/lista/profissionais/', views.medico_lista, name="medicos_lista"),
     path('admin/lista/procedimentos/', views.especialidade_lista, name="especialidade_lista"),
     path('admin/lista/clientes/', views.cliente_lista, name="cliente_lista"),

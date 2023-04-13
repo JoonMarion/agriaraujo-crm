@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>{% extends "base.html" %}
+
+{% load widget_tweaks %}
+
+{% block title %}
+    Cadastro | {{ block.super }}
+{% endblock %}
+
+{% block container %}
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="page-header">
+                <h1>Agendar</h1>
+            </div>
+            <form class="form-horizontal" method="post">
+                {% csrf_token %}
+                    <div class="form-group{% if form.data.errors %} has-error{% endif %}">
+                        <label for="{{ form.data.auto_ud }}" class="col-md-3 control-label">
+                            {{ form.data.label }}</label>
+                        <div class="col-md-9">
+                            {% render_field form.data type="date" class="form-control" %}
+                            {% for error in form.data.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group{% if form.relatorio.errors %} has-error{% endif %}">
+                        <label for="{{ form.relatorio.auto_ud }}" class="col-md-3 control-label">
+                            {{ form.relatorio.label }}</label>
+                        <div class="col-md-9">
+                            {% render_field form.relatorio type="text" class="form-control" %}
+                            {% for error in form.relatorio.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button type="submit" class="btn btn-primary">Salvar</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+{% endblock %}

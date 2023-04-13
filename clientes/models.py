@@ -12,7 +12,7 @@ class Cliente(models.Model):
         ("FEM", "Feminino")
     )
     
-    sexo = models.CharField(max_length=9, choices=SEXO,)
+    sexo = models.CharField(max_length=9, choices=SEXO)
     
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,15}$',
@@ -31,6 +31,7 @@ class Cliente(models.Model):
         verbose_name='Usuário', 
         on_delete=models.CASCADE
     )
+
     
     def __str__(self):
         return f'{self.user.name}'
