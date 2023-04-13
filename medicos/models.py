@@ -90,7 +90,7 @@ class Agenda(models.Model):
 class Relatorio(models.Model):
 
     relatorio = models.TextField(verbose_name="Relatório", null=True, blank=True)
-    data = models.DateField(help_text="Insira uma data para agenda", validators=[validar_dia], null=True, blank=True)
+    data = models.DateField(help_text="Insira uma data para agenda", null=True, blank=True)
 
     def __str__(self):
         return f'{self.data.strftime("%b %d %Y")}'

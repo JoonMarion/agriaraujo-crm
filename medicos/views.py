@@ -34,7 +34,7 @@ class IndexView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
             return Agenda.objects.filter(dia=self.today).filter(Q(dia__icontains=search) | Q(cliente__nome__icontains=search) | Q(
                 medico__nome__icontains=search)).order_by('dia')
         else:
-            return Agenda.objects.filter(dia=self.today).order_by('horario')
+            return Agenda.objects.filter(data=self.today).order_by('horario')
 
 
 class MedicoCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
@@ -212,7 +212,7 @@ class RelatorioCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
 class RelatorioUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
     model = Relatorio
     login_url = 'accounts:login'
-    template_name = 'form.html'
+    template_name = 'form_relatorio.html'
     fields = ['data', 'relatorio']
     success_url = reverse_lazy('medicos:relatorio_lista')
 
@@ -226,7 +226,7 @@ class RelatorioListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
     template_name = 'lists/relatorio_list.html'
 
     def get_queryset(self):
-        return Relatorio.objects.all().order_by('data')
+        return Relatorio.objects.all().order_by('-data')
 
 
 class RelatorioDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
@@ -235,8 +235,8 @@ class RelatorioDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
     template_name = 'form_delete.html'
 
     def get_success_url(self):
-        messages.success(self.request, "Procedimento excluído com sucesso!")
-        return reverse_lazy('medicos:especialidade_lista')
+        messages.success(self.request, "Relatório excluído com sucesso!")
+        return reverse_lazy('medicos:relatorio_lista')
 
 
 medico_cadastro = MedicoCreateView.as_view()
