@@ -27,8 +27,14 @@ urlpatterns = [
     path('atualizar/relatorio/<int:pk>', views.relatorio_atualizar, name='relatorio_atualizar'),
     path('apagar/relatorio/<int:pk>', views.relatorio_deletar, name='relatorio_deletar'),
 
+    path('admin/lista/caixa', views.caixa_lista, name="caixa_lista"),
+    path('registro/caixa/', views.caixa_cadastro, name='caixa_cadastro'),
+    path('atualizar/caixa/<int:pk>', views.caixa_atualizar, name='caixa_atualizar'),
+    path('apagar/caixa/<int:pk>', views.caixa_deletar, name='caixa_deletar'),
+
     path('admin/lista/profissionais/', views.medico_lista, name="medicos_lista"),
     path('admin/lista/procedimentos/', views.especialidade_lista, name="especialidade_lista"),
     path('admin/lista/clientes/', views.cliente_lista, name="cliente_lista"),
 
+    path('download_xlsx/', views.download_xlsx, name='download_xlsx'),
 ]

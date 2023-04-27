@@ -15,7 +15,7 @@
     </div>
     <form method="GET">
         <div style="display: flex; margin: 20px 0 20px 0;">
-            <input type="text" class="form-control" placeholder="Buscar especialista, cliente ou dia" name="search"
+            <input type="text" class="form-control" placeholder="Buscar especialista, cliente ou data" name="search"
                    id="search">
             <button class="btn btn-primary input-group-text" type="submit">Buscar</button>
         </div>
@@ -32,6 +32,9 @@
             </th>
             <th>
                 Cliente
+            </th>
+            <th>
+                Procedimento
             </th>
             <th>
                 Data
@@ -57,10 +60,13 @@
                     {{ consulta.cliente }}
                 </td>
                 <td>
+                    {{ consulta.procedimento }}
+                </td>
+                <td>
                     {{ consulta.data|date:"d/m/Y" }}
                 </td>
                 <td>
-                    {{ consulta.get_horario_display }}
+                    {{ consulta.horario }}
                 </td>
                 <td>
                     <a href="{% url 'medicos:agendar_consulta_atualizar' consulta.id %}" class="text-primary"
