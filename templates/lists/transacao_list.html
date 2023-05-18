@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Transações
+{% endblock %}
+
+{% block container %}
+
+    {% if object_list %}
+        {% with transacao=object_list.first %}
+            <div class="row">
+                <div class="col-md-8"><h2>Transações de {{ transacao.cliente }}</h2></div>
+                <div class="col-md-4 text-right" style="margin-top: 21px; margin-bottom: 10.5px;">
+                    <a href="{% url 'clientes:transacao_cadastro' transacao.cliente.id  %}" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Adicionar Transação
+                    </a>
+                </div>
+            </div>
+        {% endwith %}
+
+
+    <form method="GET">
+        <div style="display: flex; margin: 20px 0 20px 0;">
+            <input type="text" class="form-control" placeholder="Buscar descrição" name="search"
+                   id="search">
+            <button class="btn btn-primary input-group-text" type="submit">Buscar</button>
+        </div>
+    </form>
+
+    {% if total_soma > 0 %}
+        <h2>Saldo: R$  <span style="color: green;">{{ total_soma }}</span></h2>
+    {% else %}
+        <h2>Saldo: R$  <span style="color: red;">-{{ total_soma }}</span></h2>
+    {% endif %}
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>
+                Data
+            </th>
+            <th>
+                Descrição
+            </th>
+            <th>
+                Tipo
+            </th>
+            <th>
+                Quantidade KG
+            </th>
+            <th>
+                Valor
+            </th>
+            <th>
+                Opções
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for transacao in object_list %}
+            <tr>
+                <td>
+                    <p>{{ transacao.data }}</p>
+                </td>
+                <td>
+                    <p>{{ transacao.descricao }}</p>
+                </td>
+                {% if transacao.tipo == 'E' %}
+                    <td>
+                        <p>Entrada</p>
+                    </td>
+                {% else %}
+                    <td>
+                        <p>Saída</p>
+                    </td>
+                {% endif %}
+                <td>
+                    <p>{{ transacao.quantidade_kg }}</p>
+                </td>
+                {% if transacao.valor > 0 %}
+                    <td>
+                        <p>R$ <span style="color: green;">{{ transacao.valor }}</span></p>
+                    </td>
+                {% else %}
+                    <td>
+                         <p>R$ <span style="color: red;">{{ transacao.valor }}</span></p>
+                    </td>
+                {% endif %}
+                <td>
+                    <a href="{% url 'clientes:transacao_atualizar' transacao.id %}" class="text-primary"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-edit" title="Atualizar Cliente"></i>
+                    </a>
+                    <a href="{% url 'clientes:transacao_deletar' transacao.id %}" class="mr-1 text-danger"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-trash-alt" title="Deletar Cliente"></i>
+                    </a>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+        <h2>Lista de transações vazia</h2>
+
+    {% endif %}
+
+{% endblock %}

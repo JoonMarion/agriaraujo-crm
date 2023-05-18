@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-8"><h2>Clientes</h2></div>
         <div class="col-md-4 text-right" style="margin-top: 21px; margin-bottom: 10.5px;">
-            <a href="{% url 'medicos:cliente_cadastro' %}" class="btn btn-primary input-group-text">
+            <a href="{% url 'clientes:cliente_cadastro' %}" class="btn btn-primary input-group-text">
                 Cadastrar
             </a>
         </div>
@@ -33,9 +33,6 @@
                 Telefone
             </th>
             <th>
-                Avaliação
-            </th>
-            <th>
                 Opções
             </th>
         </tr>
@@ -44,27 +41,31 @@
         {% for cliente in object_list %}
             <tr>
                 <td>
-                    <a href=""># {{ cliente.pk }}</a>
+                    <p> {{ cliente.pk }}</p>
                 </td>
                 <td>
-                    {{ cliente.nome }}
+                    <p>{{ cliente.nome }}</p>
+                </td>
+                 <td>
+                    <p>{{ cliente.telefone }}</p>
                 </td>
                 <td>
-                    {{ cliente.telefone }}
-                </td>
-                <td style="max-width: 700px; word-wrap:break-word;">
-                    <div>{{ cliente.avaliacao }}</div>
-                </td>
-                <td>
-                    <a href="{% url 'medicos:cliente_atualizar' cliente.id %}" class="text-primary"
+                    <a href="{% url 'clientes:transacao_cadastro' cliente.id %}" class="mr-1 text-success"
                        style="padding-left: 10px; text-decoration: none;">
-                        <i class="fas fa-edit"></i>
+                        <i class="fas fa-plus" title="Adicionar Transação"></i>
                     </a>
-                    <a href="{% url 'medicos:cliente_deletar' cliente.id %}" class="mr-1 text-danger"
+                    <a href="{% url 'clientes:transacao_lista' cliente.id %}" class="mr-1 text-primary"
                        style="padding-left: 10px; text-decoration: none;">
-                        <i class="fas fa-trash-alt"></i>
+                        <i class="fas fa-list" title="Adicionar Transação"></i>
                     </a>
-                </td>
+                    <a href="{% url 'clientes:cliente_atualizar' cliente.id %}" class="text-primary"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-edit" title="Atualizar Cliente"></i>
+                    </a>
+                    <a href="{% url 'clientes:cliente_deletar' cliente.id %}" class="mr-1 text-danger"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-trash-alt" title="Deletar Cliente"></i>
+                    </a>
             </tr>
         {% endfor %}
         </tbody>

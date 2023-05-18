@@ -1,17 +1,18 @@
 from django.contrib import admin
-from .models import Cliente, Consulta
+from clientes.models import Cliente, Transacao
 
-    
-class ClientAdmin(admin.ModelAdmin):
+
+class ClienteAdmin(admin.ModelAdmin):
     list_display = [
-        'cpf', 'telefone', 'sexo',
+        'nome', 'telefone'
     ]
-    
-class ConsultaAdmin(admin.ModelAdmin):
+
+
+class TransacaoAdmin(admin.ModelAdmin):
     list_display = [
-        'agenda', 'cliente',
+        'cliente', 'data', 'descricao', 'quantidade_kg', 'tipo'
     ]
-    
-    
-admin.site.register(Cliente, ClientAdmin)
-admin.site.register(Consulta, ConsultaAdmin)
+
+
+admin.site.register(Cliente, ClienteAdmin)
+admin.site.register(Transacao, TransacaoAdmin)

@@ -4,7 +4,7 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'django-insecure-%=5r)k$(m&4sz#ycvf9*wvb_6q%hpbkg(bczdlq)gy-5j5sz4m'
+SECRET_KEY = 'django-insecure-_9t(q2z35aqs=p%b^#gcf6ah=*_b6-5e8#x#y_2($(7htqu@ze'
 
 DEBUG = True
 
@@ -24,7 +24,6 @@ INSTALLED_APPS = [
     
     'accounts',
     'clientes',
-    'medicos',
 ]
 
 MIDDLEWARE = [
@@ -64,9 +63,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
-
-
 LANGUAGE_CODE = 'pt-br'
 
 TIME_ZONE = 'UTC'
@@ -103,9 +99,13 @@ TEMPLATES = [
 ]
 
 LOGIN = 'conta/entrar'
+
 LOGIN_REDIRECT_URL = '/'
+
 LOGOUT = 'logout'
+
 AUTH_USER_MODEL = 'accounts.User'
+
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'accounts.backends.ModelBackend'
