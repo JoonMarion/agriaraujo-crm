@@ -51,3 +51,4 @@ Para visualizar se tudo esta executando como esperado vamos acessar o seguinte e
 Ou você pode ter acesso a admin do Django:
 [http://localhost:8000/admin](http://localhost:8000/admin)
 
+# agriaraujo-crm
