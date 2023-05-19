@@ -52,6 +52,17 @@
                             {% endfor %}
                         </div>
                     </div>
+                    <div class="form-group{% if form.tipo.errors %} has-error{% endif %}">
+                        <label for="{{ form.tipo.auto_id }}" class="col-md-3 control-label">
+                            {{ form.tipo.label }}</label>
+                        <div class="col-md-9">
+                            {% render_field form.tipo class="form-control" %}
+
+                            {% for error in form.tipo.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
                     <div class="form-group{% if form.quantidade_kg.errors %} has-error{% endif %}">
                         <label for="{{ form.quantidade_kg.auto_ud }}" class="col-md-3 control-label">
                             {{ form.quantidade_kg.label }}</label>
@@ -62,13 +73,13 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="form-group{% if form.tipo.errors %} has-error{% endif %}">
-                        <label for="{{ form.tipo.auto_id }}" class="col-md-3 control-label">
-                            {{ form.tipo.label }}</label>
+                    <div class="form-group{% if form.valor_kg.errors %} has-error{% endif %}">
+                        <label for="{{ form.valor_kg.auto_id }}" class="col-md-3 control-label">
+                            {{ form.valor_kg.label }}</label>
                         <div class="col-md-9">
-                            {% render_field form.tipo class="form-control" %}
+                            {% render_field form.valor_kg class="form-control" %}
 
-                            {% for error in form.tipo.errors %}
+                            {% for error in form.valor_kg.errors %}
                                 <span class="help-block">{{ error }}</span>
                             {% endfor %}
                         </div>
@@ -84,7 +95,6 @@
                             {% endfor %}
                         </div>
                     </div>
-
                     <div class="form-group">
                         <div class="col-md-9 col-md-offset-3">
                             <button type="submit" class="btn btn-primary">Salvar</button>
@@ -94,4 +104,24 @@
             </form>
         </div>
     </div>
+    <script>
+        // Obtém o campo 'tipo' e o campo 'quantidade_kg'
+        var tipoField = document.getElementById("id_tipo");
+        var quantidadeKgField = document.getElementById("id_valor_kg");
+
+        // Define uma função para atualizar a visibilidade do campo 'quantidade_kg'
+        function updateQuantidadeKgField() {
+            if (tipoField.value !== "S") {
+                quantidadeKgField.parentElement.parentElement.style.display = "none";
+            } else {
+                quantidadeKgField.parentElement.parentElement.style.display = "block";
+            }
+        }
+
+        // Chama a função para definir a visibilidade inicialmente
+        updateQuantidadeKgField();
+
+        // Adiciona um event listener para o evento 'change' no campo 'tipo'
+        tipoField.addEventListener("change", updateQuantidadeKgField);
+    </script>
 {% endblock %}

@@ -87,7 +87,7 @@ class TransacaoCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
     model = Transacao
     login_url = 'accounts:login'
     template_name = 'transacao_form.html'
-    fields = ['cliente', 'data', 'descricao', 'quantidade_kg', 'tipo', 'valor']
+    fields = ['cliente', 'data', 'descricao', 'quantidade_kg', 'tipo', 'valor_total', 'valor_kg']
 
     def dispatch(self, request, *args, **kwargs):
         self.success_url = reverse_lazy('clientes:transacao_lista', kwargs={'pk': kwargs['pk']})
@@ -109,7 +109,7 @@ class TransacaoUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
     model = Transacao
     login_url = 'accounts:login'
     template_name = 'transacao_form.html'
-    fields = ['cliente', 'data', 'descricao', 'quantidade_kg', 'tipo', 'valor']
+    fields = ['cliente', 'data', 'descricao', 'quantidade_kg', 'tipo', 'valor_total', 'valor_kg']
 
     def dispatch(self, request, *args, **kwargs):
         self.success_url = reverse_lazy('clientes:transacao_lista', kwargs={'pk': kwargs['pk']})
@@ -132,7 +132,7 @@ class TransacaoListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         transacao_id = self.kwargs.get('pk')
-        total_soma = Transacao.objects.filter(cliente__id=transacao_id).aggregate(total=Sum('valor'))['total']
+        total_soma = Transacao.objects.filter(cliente__id=transacao_id).aggregate(total=Sum('quantidade_kg'))['total']
         context['total_soma'] = total_soma
         return context
 

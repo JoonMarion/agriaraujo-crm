@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from django.core.validators import RegexValidator
 from django.forms import TextInput
@@ -22,14 +23,16 @@ class Transacao(models.Model):
     data = models.DateField()
     descricao = models.CharField(max_length=200)
     quantidade_kg = models.DecimalField(max_digits=20, decimal_places=2)
+    valor_kg = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
     tipo = models.CharField(max_length=1, choices=TIPOS_TRANSACAO)
-    valor = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
+    valor_total = models.DecimalField(max_digits=20, decimal_places=2, null=True, blank=True)
 
     def __str__(self):
         return self.descricao + ' - ' + self.cliente.nome + ' - ' + str(self.data)
 
     def save(self, *args, **kwargs):
         if self.tipo == 'S':
-            self.valor = self.valor * -1
+            self.quantidade_kg = -self.quantidade_kg
+        self.valor_total = Decimal(self.quantidade_kg) * Decimal(self.valor_kg)
         super(Transacao, self).save(*args, **kwargs)
 

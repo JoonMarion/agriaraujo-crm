@@ -28,9 +28,9 @@
     </form>
 
     {% if total_soma > 0 %}
-        <h2>Saldo: R$  <span style="color: green;">{{ total_soma }}</span></h2>
+        <h2>Saldo: <span style="color: green;">{{ total_soma }}</span> kg</h2>
     {% else %}
-        <h2>Saldo: R$  <span style="color: red;">-{{ total_soma }}</span></h2>
+        <h2>Saldo: <span style="color: red;">-{{ total_soma }}</span> kg</h2>
     {% endif %}
 
     <table class="table table-bordered">
@@ -48,8 +48,11 @@
             <th>
                 Quantidade KG
             </th>
+             <th>
+                Valor KG
+            </th>
             <th>
-                Valor
+                Total
             </th>
             <th>
                 Opções
@@ -67,23 +70,27 @@
                 </td>
                 {% if transacao.tipo == 'E' %}
                     <td>
-                        <p>Entrada</p>
+                        <p style="color: green">Entrada</p>
                     </td>
                 {% else %}
                     <td>
-                        <p>Saída</p>
+                        <p style="color: red">Saída</p>
                     </td>
                 {% endif %}
                 <td>
                     <p>{{ transacao.quantidade_kg }}</p>
                 </td>
-                {% if transacao.valor > 0 %}
+                {% if transacao.tipo == 'E' %}
                     <td>
-                        <p>R$ <span style="color: green;">{{ transacao.valor }}</span></p>
+                    </td>
+                    <td>
                     </td>
                 {% else %}
                     <td>
-                         <p>R$ <span style="color: red;">{{ transacao.valor }}</span></p>
+                        <p>{{ transacao.valor_kg }}</p>
+                    </td>
+                    <td>
+                        <p>R$ {{ transacao.valor_total }}</p>
                     </td>
                 {% endif %}
                 <td>
@@ -99,8 +106,6 @@
         {% endfor %}
         </tbody>
     </table>
-    {% else %}
-        <h2>Lista de transações vazia</h2>
 
     {% endif %}
 
