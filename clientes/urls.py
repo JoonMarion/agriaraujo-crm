@@ -4,10 +4,10 @@ from . import views
 app_name = 'clientes'
 
 urlpatterns = [
-    path('lista/cliente/', views.cliente_lista, name="cliente_lista"),
-    path('cadastro/cliente/', views.cliente_cadastro, name="cliente_cadastro"),
-    path('atualizar/cliente/<int:pk>/', views.cliente_atualizar, name="cliente_atualizar"),
-    path('deletar/cliente/<int:pk>/', views.cliente_deletar, name="cliente_deletar"),
+    path('lista/produtor/', views.cliente_lista, name="cliente_lista"),
+    path('cadastro/produtor/', views.cliente_cadastro, name="cliente_cadastro"),
+    path('atualizar/produtor/<int:pk>/', views.cliente_atualizar, name="cliente_atualizar"),
+    path('deletar/produtor/<int:pk>/', views.cliente_deletar, name="cliente_deletar"),
 
     path('lista/transacao/<int:pk>/', views.transacao_lista, name="transacao_lista"),
     path('cadastro/transacao/<int:pk>/', views.transacao_cadastro, name="transacao_cadastro"),
