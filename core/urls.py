@@ -10,4 +10,5 @@ urlpatterns = [
 
     path('conta/', include('accounts.urls', namespace='accounts')),
     path('produtores/', include('clientes.urls', namespace="clientes")),
+    path('caixa/', include('caixa.urls', namespace="caixa")),
 ]

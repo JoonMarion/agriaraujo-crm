@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% load custom_filters %}
+
+{% block title %}
+    Caixa
+{% endblock %}
+
+{% block container %}
+    <div class="row">
+        <div class="col-md-8"><h1>Caixa</h1></div>
+        <div class="col-md-4 text-right" style="margin-top: 21px; margin-bottom: 10.5px;">
+            <a href="{% url 'caixa:caixa_cadastro' %}" class="btn btn-primary input-group-text">
+                Adicionar Movimentação
+            </a>
+            <a href="{% url 'caixa:download_xlsx' %}?inicio={{ data_inicio }}&fim={{ data_fim }}" class="btn btn-primary">Download XLSX</a>
+        </div>
+    </div>
+
+    {% if total > 0 %}
+        <h2>Saldo: R$ <span style="color: green;">{{ total }}</span></h2>
+    {% elif total < 0 %}
+        <h2>Saldo: R$ <span style="color: red;">{{ total }}</span></h2>
+    {% else %}
+        <h2>Saldo: R$ {{ total }}</h2>
+    {% endif %}
+
+
+    <form method="GET" style="display: flex; gap:1rem;">
+        <div>
+            <h3>
+                Data inicial:
+                {% if data_inicio %}
+                    {{ data_inicio }}
+                {% endif %}
+            </h3>
+            <div style="display: flex; margin: 20px 0 20px 0;">
+                <input type="date" class="form-control" name="inicio"
+                       id="inicio">
+            </div>
+        </div>
+
+        <div>
+            <h3>
+                Data final:
+                {% if data_fim %}
+                     {{ data_fim }}
+                {% endif %}
+            </h3>
+            <div style="display: flex; margin: 20px 0 20px 0;">
+                <input type="date" class="form-control" placeholder="Buscar data" name="fim"
+                       id="fim">
+                <button class="btn btn-primary input-group-text" style="margin-left: 10px;" type="submit">Buscar</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>
+                DATA
+            </th>
+            <th>
+                TIPO
+            </th>
+            <th>
+                DESCRIÇÃO
+            </th>
+            <th>
+                VALOR
+            </th>
+            <th>
+                OPÇÕES
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for caixa in object_list %}
+            <tr>
+                <td>
+                    {{ caixa.data|date:"d/m/Y" }}
+                </td>
+
+                <td>
+                    {% if caixa.tipo == 'E' %}
+                    <span style="color: green;">{{ caixa.get_tipo_display }}</span>
+                    {% else %}
+                    <span style="color: red;">{{ caixa.get_tipo_display }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {{ caixa.descricao }}
+                </td>
+                <td>
+                    R$ {{ caixa.valor|make_positive }}
+                </td>
+                <td>
+                    <a href="{% url 'caixa:caixa_atualizar' caixa.id %}" class="text-primary"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-edit" title="Editar Movimentação"></i>
+                    </a>
+                    <a href="{% url 'caixa:caixa_deletar' caixa.id %}" class="mr-1 text-danger"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-trash-alt" title="Deletar Movimentação"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
