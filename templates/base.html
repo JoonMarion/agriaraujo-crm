@@ -25,7 +25,7 @@
             <ul class="nav navbar-nav">
                 {% if user.is_staff or user.is_superuser %}
                     <li>
-                        <a href="{% url 'clientes:cliente_lista' %}">Clientes</a>
+                        <a href="{% url 'clientes:cliente_lista' %}">Produtores</a>
                     </li>
                 {% endif %}
             </ul>

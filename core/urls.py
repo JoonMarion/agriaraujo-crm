@@ -9,5 +9,5 @@ urlpatterns = [
     path('', IndexView.as_view(), name='index'),
 
     path('conta/', include('accounts.urls', namespace='accounts')),
-    path('clientes/', include('clientes.urls', namespace="clientes")),
+    path('produtores/', include('clientes.urls', namespace="clientes")),
 ]

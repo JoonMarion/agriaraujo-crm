@@ -1,7 +1,8 @@
 {% extends "base.html" %}
+{% load custom_filters %}
 
 {% block title %}
-    Transações
+    Movimentações
 {% endblock %}
 
 {% block container %}
@@ -9,10 +10,10 @@
     {% if object_list %}
         {% with transacao=object_list.first %}
             <div class="row">
-                <div class="col-md-8"><h2>Transações de {{ transacao.cliente }}</h2></div>
+                <div class="col-md-8"><h2>Movimentações de {{ transacao.cliente }}</h2></div>
                 <div class="col-md-4 text-right" style="margin-top: 21px; margin-bottom: 10.5px;">
                     <a href="{% url 'clientes:transacao_cadastro' transacao.cliente.id  %}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Adicionar Transação
+                        <i class="fas fa-plus"></i> Adicionar Movimentação
                     </a>
                 </div>
             </div>
@@ -30,32 +31,32 @@
     {% if total_soma > 0 %}
         <h2>Saldo: <span style="color: green;">{{ total_soma }}</span> kg</h2>
     {% else %}
-        <h2>Saldo: <span style="color: red;">-{{ total_soma }}</span> kg</h2>
+        <h2>Saldo: <span style="color: red;">{{ total_soma }}</span> kg</h2>
     {% endif %}
 
     <table class="table table-bordered">
         <thead>
         <tr>
             <th>
-                Data
+                DATA
             </th>
             <th>
-                Descrição
+                HISTÓRICO
             </th>
             <th>
-                Tipo
+                TIPO
             </th>
             <th>
-                Quantidade KG
+                QUANTIDADE KG
             </th>
              <th>
-                Valor KG
+                PREÇO UNITÁRIO
             </th>
             <th>
-                Total
+                TOTAL
             </th>
             <th>
-                Opções
+                OPÇÕES
             </th>
         </tr>
         </thead>
@@ -78,7 +79,7 @@
                     </td>
                 {% endif %}
                 <td>
-                    <p>{{ transacao.quantidade_kg }}</p>
+                    <p>{{ transacao.quantidade_kg|make_positive }}</p>
                 </td>
                 {% if transacao.tipo == 'E' %}
                     <td>
@@ -87,20 +88,20 @@
                     </td>
                 {% else %}
                     <td>
-                        <p>{{ transacao.valor_kg }}</p>
+                        <p>R$ {{ transacao.valor_kg }}</p>
                     </td>
                     <td>
-                        <p>R$ {{ transacao.valor_total }}</p>
+                        <p>R$ {{ transacao.valor_total|make_positive }}</p>
                     </td>
                 {% endif %}
                 <td>
                     <a href="{% url 'clientes:transacao_atualizar' transacao.id %}" class="text-primary"
                        style="padding-left: 10px; text-decoration: none;">
-                        <i class="fas fa-edit" title="Atualizar Cliente"></i>
+                        <i class="fas fa-edit" title="Atualizar Movimentação"></i>
                     </a>
                     <a href="{% url 'clientes:transacao_deletar' transacao.id %}" class="mr-1 text-danger"
                        style="padding-left: 10px; text-decoration: none;">
-                        <i class="fas fa-trash-alt" title="Deletar Cliente"></i>
+                        <i class="fas fa-trash-alt" title="Deletar Movimentação"></i>
                     </a>
             </tr>
         {% endfor %}

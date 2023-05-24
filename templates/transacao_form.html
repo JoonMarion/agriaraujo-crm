@@ -84,13 +84,13 @@
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="form-group{% if form.valor.errors %} has-error{% endif %}">
-                        <label for="{{ form.valor.auto_id }}" class="col-md-3 control-label">
-                            {{ form.valor.label }}</label>
+                    <div class="form-group{% if form.valor_total.errors %} has-error{% endif %}">
+                        <label for="{{ form.valor_total.auto_id }}" class="col-md-3 control-label">
+                            {{ form.valor_total.label }}</label>
                         <div class="col-md-9">
-                            {% render_field form.valor class="form-control" %}
+                            {% render_field form.valor_total class="form-control" %}
 
-                            {% for error in form.valor.errors %}
+                            {% for error in form.valor_total.errors %}
                                 <span class="help-block">{{ error }}</span>
                             {% endfor %}
                         </div>
@@ -107,14 +107,25 @@
     <script>
         // Obtém o campo 'tipo' e o campo 'quantidade_kg'
         var tipoField = document.getElementById("id_tipo");
-        var quantidadeKgField = document.getElementById("id_valor_kg");
+        var valorField = document.getElementById("id_valor_kg");
+        var quantidadeKgField = document.getElementById("id_quantidade_kg");
+        var valorTotalField = document.getElementById("id_valor_total");
+
 
         // Define uma função para atualizar a visibilidade do campo 'quantidade_kg'
         function updateQuantidadeKgField() {
-            if (tipoField.value !== "S") {
-                quantidadeKgField.parentElement.parentElement.style.display = "none";
-            } else {
+            if (tipoField.value === "S") {
                 quantidadeKgField.parentElement.parentElement.style.display = "block";
+                valorField.parentElement.parentElement.style.display = "block";
+                valorTotalField.parentElement.parentElement.style.display = "block";
+            } else if(tipoField.value === "E"){
+                quantidadeKgField.parentElement.parentElement.style.display = "block";
+                valorField.parentElement.parentElement.style.display = "none";
+                valorTotalField.parentElement.parentElement.style.display = "none";
+            } else {
+                quantidadeKgField.parentElement.parentElement.style.display = "none";
+                valorField.parentElement.parentElement.style.display = "none";
+                valorTotalField.parentElement.parentElement.style.display = "none";
             }
         }
 
