@@ -132,6 +132,12 @@
         <span class="receipt-label text-large">Número:</span>
         <span class="text-large">{{ recibo.recibo_id }}</span>
     </div>
+    {% if recibo.cliente %}
+        <div class="receipt-section pull-left">
+            <span class="receipt-label text-large">Nome:</span>
+            <span class="text-large">{{ recibo.cliente }}</span>
+        </div>
+    {% endif %}
     <div class="receipt-section pull-left">
         <span class="receipt-label text-large">Histórico: </span>
         <span class="text-large">{{ recibo.descricao }}</span>
@@ -175,7 +181,7 @@
 </div>
 <div class="button-wrapper">
     <button onclick="window.print()" class="print-button button-9">Imprimir recibo</button>
-</div>f
+</div>
 
 </body>
 </html>

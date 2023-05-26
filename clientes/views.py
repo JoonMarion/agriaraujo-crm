@@ -162,6 +162,27 @@ class TransacaoDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
         return reverse_lazy('clientes:transacao_lista', kwargs={'pk': self.kwargs['pk']})
 
 
+def transacao_imprimir(request, transacao_id):
+    transacao = Transacao.objects.get(id=transacao_id)
+
+    recibo_data = {
+        'cliente': transacao.cliente,
+        'data': transacao.data.strftime('%d/%m/%Y'),
+        'descricao': transacao.descricao,
+        'tipo': transacao.tipo,
+        'quantidade_kg': transacao.quantidade_kg,
+        'valor_kg': transacao.valor_kg,
+        'valor_total': transacao.valor_total,
+        'recibo_id': transacao_id,
+    }
+
+    context = {
+        'recibo': recibo_data,
+    }
+
+    return render(request, 'receipts/recibo_caixa.html', context)
+
+
 cliente_cadastro = ClienteCreateView.as_view()
 cliente_atualizar = ClienteUpdateView.as_view()
 cliente_lista = ClienteListView.as_view()

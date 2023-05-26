@@ -13,4 +13,6 @@ urlpatterns = [
     path('cadastro/transacao/<int:pk>/', views.transacao_cadastro, name="transacao_cadastro"),
     path('atualizar/transacao/<int:pk>/', views.transacao_atualizar, name="transacao_atualizar"),
     path('deletar/transacao/<int:pk>/', views.transacao_deletar, name="transacao_deletar"),
+
+    path('imprimir/<int:transacao_id>/', views.transacao_imprimir, name='transacao_imprimir'),
 ]

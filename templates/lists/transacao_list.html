@@ -95,6 +95,10 @@
                     </td>
                 {% endif %}
                 <td>
+                    <a href="{% url 'clientes:transacao_imprimir' transacao.id %}" class="text-success"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-print" title="Imprimir Recibo"></i>
+                    </a>
                     <a href="{% url 'clientes:transacao_atualizar' transacao.id %}" class="text-primary"
                        style="padding-left: 10px; text-decoration: none;">
                         <i class="fas fa-edit" title="Atualizar Movimentação"></i>
