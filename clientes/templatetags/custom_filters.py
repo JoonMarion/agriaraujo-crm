@@ -5,4 +5,7 @@ register = template.Library()
 
 @register.filter
 def make_positive(value):
-    return abs(value)
+    if value:
+        return abs(value)
+    else:
+        return value

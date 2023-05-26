@@ -1,0 +1,181 @@
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        @media print {
+            @page {
+                size: 85mm 160mm;
+                margin: 0;
+                padding: 0;
+            }
+
+            button.print-button {
+                display: none;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        .receipt-main {
+            display: inline-block;
+            width: 80mm;
+            padding: 15px;
+            font-size: 12px;
+        }
+
+        .receipt-title {
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 20px;
+            font-weight: 600;
+            margin: 50px 0 30px 0;
+        }
+
+        .receipt-label {
+            font-weight: 600;
+        }
+
+        .text-large {
+            font-size: 16px;
+        }
+
+        .receipt-section {
+            margin-top: 10px;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            background: #ff0000;
+        }
+
+        .receipt-signature {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .receipt-line {
+            width: 70mm;
+            margin: 30px 0;
+            border-bottom: 1px solid #000;
+        }
+
+        p {
+            text-align: center;
+            margin: 0;
+        }
+
+        .magin-bot {
+            margin-bottom: 50px;
+        }
+
+        .button-9 {
+            appearance: button;
+            backface-visibility: hidden;
+            background-color: #405cf5;
+            border-radius: 6px;
+            border-width: 0;
+            box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .1) 0 2px 5px 0, rgba(0, 0, 0, .07) 0 1px 1px 0;
+            box-sizing: border-box;
+            color: #fff;
+            cursor: pointer;
+            font-family: -apple-system, system-ui, "Segoe UI", Roboto, "Helvetica Neue", Ubuntu, sans-serif;
+            font-size: 100%;
+            height: 44px;
+            line-height: 1.15;
+            margin: 12px 0 0;
+            outline: none;
+            overflow: hidden;
+            padding: 0 25px;
+            position: relative;
+            text-align: center;
+            text-transform: none;
+            transform: translateZ(0);
+            transition: all .2s, box-shadow .08s ease-in;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+            width: 100%;
+        }
+
+        .button-9:disabled {
+            cursor: default;
+        }
+
+        .button-9:focus {
+            box-shadow: rgba(50, 50, 93, .1) 0 0 0 1px inset, rgba(50, 50, 93, .2) 0 6px 15px 0, rgba(0, 0, 0, .1) 0 2px 2px 0, rgba(50, 151, 211, .3) 0 0 0 4px;
+        }
+
+        .button-wrapper {
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="receipt-main">
+    <div class="receipt-title">
+        <p>Agriaraujo Graos e Produtos Agricola LTDA, 08.743.765/0001-23</p>
+    </div>
+    <div class="receipt-signature">
+        <p>Avenida Rui Barbosa, S/N, Cidade Nova, Baião/PA, 68465-000</p>
+    </div>
+
+    <p class="receipt-line"></p>
+
+    <div class="receipt-section pull-left">
+        <span class="receipt-label text-large">Número:</span>
+        <span class="text-large">{{ recibo.recibo_id }}</span>
+    </div>
+    <div class="receipt-section pull-left">
+        <span class="receipt-label text-large">Histórico: </span>
+        <span class="text-large">{{ recibo.descricao }}</span>
+    </div>
+    <div class="receipt-section pull-left">
+        <span class="receipt-label text-large">Data: </span>
+        <span class="text-large">{{ recibo.data }}</span>
+    </div>
+    {% if recibo.tipo == 'S' %}
+        <div class="receipt-section pull-left">
+            <span class="receipt-label text-large">Tipo: </span>
+            <span class="text-large">Saída</span>
+        </div>
+    {% else %}
+        <div class="receipt-section pull-left">
+            <span class="receipt-label text-large">Tipo: </span>
+            <span class="text-large">Entrada</span>
+        </div>
+    {% endif %}
+
+    {% if recibo.tipo == 'S' %}
+        <div class="receipt-section pull-left">
+            <span class="receipt-label text-large">Quantidade kg:</span>
+            <span class="text-large">{{ recibo.quantidade_kg|make_positive }}</span>
+        </div>
+        <div class="receipt-section pull-left">
+            <span class="receipt-label text-large">Preço unitário: </span>
+            <span class="text-large">R$ {{ recibo.valor_kg }}</span>
+        </div>
+        <div class="receipt-section pull-left">
+            <span class="receipt-label text-large">Total: </span>
+            <span class="text-large">R$ {{ recibo.valor_total|make_positive }}</span>
+        </div>
+    {% else %}
+        <div class="receipt-section pull-left">
+            <span class="receipt-label text-large">Quantidade kg:</span>
+            <span class="text-large">{{ recibo.quantidade_kg|make_positive }}</span>
+        </div>
+    {% endif %}
+    <div class="magin-bot"></div>
+</div>
+<div class="button-wrapper">
+    <button onclick="window.print()" class="print-button button-9">Imprimir recibo</button>
+</div>
+
+</body>
+</html>

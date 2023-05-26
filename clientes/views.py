@@ -89,6 +89,9 @@ class TransacaoCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
     template_name = 'transacao_form.html'
     fields = ['cliente', 'data', 'descricao', 'quantidade_kg', 'tipo', 'valor_total', 'valor_kg']
 
+    def __init__(self):
+        self.success_url = None
+
     def dispatch(self, request, *args, **kwargs):
         self.success_url = reverse_lazy('clientes:transacao_lista', kwargs={'pk': kwargs['pk']})
         return super().dispatch(request, *args, **kwargs)
@@ -110,6 +113,9 @@ class TransacaoUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
     login_url = 'accounts:login'
     template_name = 'transacao_form.html'
     fields = ['cliente', 'data', 'descricao', 'quantidade_kg', 'tipo', 'valor_total', 'valor_kg']
+
+    def __init__(self):
+        self.success_url = None
 
     def dispatch(self, request, *args, **kwargs):
         self.success_url = reverse_lazy('clientes:transacao_lista', kwargs={'pk': kwargs['pk']})
@@ -152,7 +158,7 @@ class TransacaoDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
     template_name = 'form_delete.html'
 
     def get_success_url(self):
-        messages.success(self.request, "Transação excluída com sucesso!")
+        messages.success(self.request, "Movimentação excluída com sucesso!")
         return reverse_lazy('clientes:transacao_lista', kwargs={'pk': self.kwargs['pk']})
 
 

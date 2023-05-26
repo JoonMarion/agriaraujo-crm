@@ -14,23 +14,19 @@
             </div>
             <form class="form-horizontal" method="post">
                 {% csrf_token %}
+                {% for error in form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
                 <fieldset>
                     <div class="form-group{% if form.data.errors %} has-error{% endif %}">
-                        <label for="{{ form.data.auto_ud }}" class="col-md-3 control-label">
+                        <label for="{{ form.data.auto_id }}" class="col-md-3 control-label">
                             {{ form.data.label }}</label>
                         <div class="col-md-9">
-                            {% render_field form.data type="date" class="form-control" %}
+                            {% render_field form.data type="date" class="form-control" placeholder="01/01/2023" %}
+
                             {% for error in form.data.errors %}
-                                <span class="help-block">{{ error }}</span>
-                            {% endfor %}
-                        </div>
-                    </div>
-                    <div class="form-group{% if form.tipo.errors %} has-error{% endif %}">
-                        <label for="{{ form.tipo.auto_ud }}" class="col-md-3 control-label">
-                            {{ form.tipo.label }}</label>
-                        <div class="col-md-9">
-                            {% render_field form.tipo type="select" class="form-control" %}
-                            {% for error in form.tipo.errors %}
                                 <span class="help-block">{{ error }}</span>
                             {% endfor %}
                         </div>
@@ -39,18 +35,51 @@
                         <label for="{{ form.descricao.auto_ud }}" class="col-md-3 control-label">
                             {{ form.descricao.label }}</label>
                         <div class="col-md-9">
-                            {% render_field form.descricao type="text" class="form-control" %}
+                            {% render_field form.descricao class="form-control" %}
                             {% for error in form.descricao.errors %}
                                 <span class="help-block">{{ error }}</span>
                             {% endfor %}
                         </div>
                     </div>
-                    <div class="form-group{% if form.valor.errors %} has-error{% endif %}">
-                        <label for="{{ form.valor.auto_ud }}" class="col-md-3 control-label">
-                            {{ form.valor.label }}</label>
+                    <div class="form-group{% if form.tipo.errors %} has-error{% endif %}">
+                        <label for="{{ form.tipo.auto_id }}" class="col-md-3 control-label">
+                            {{ form.tipo.label }}</label>
                         <div class="col-md-9">
-                            {% render_field form.valor type="number" class="form-control" %}
-                            {% for error in form.valor.errors %}
+                            {% render_field form.tipo class="form-control" %}
+
+                            {% for error in form.tipo.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group{% if form.quantidade_kg.errors %} has-error{% endif %}">
+                        <label for="{{ form.quantidade_kg.auto_ud }}" class="col-md-3 control-label">
+                            {{ form.quantidade_kg.label }}</label>
+                        <div class="col-md-9">
+                            {% render_field form.quantidade_kg class="form-control" %}
+                            {% for error in form.quantidade_kg.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group{% if form.valor_kg.errors %} has-error{% endif %}">
+                        <label for="{{ form.valor_kg.auto_id }}" class="col-md-3 control-label">
+                            {{ form.valor_kg.label }}</label>
+                        <div class="col-md-9">
+                            {% render_field form.valor_kg class="form-control" %}
+
+                            {% for error in form.valor_kg.errors %}
+                                <span class="help-block">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-group{% if form.valor_total.errors %} has-error{% endif %}">
+                        <label for="{{ form.valor_total.auto_id }}" class="col-md-3 control-label">
+                            {{ form.valor_total.label }}</label>
+                        <div class="col-md-9">
+                            {% render_field form.valor_total class="form-control" %}
+
+                            {% for error in form.valor_total.errors %}
                                 <span class="help-block">{{ error }}</span>
                             {% endfor %}
                         </div>
@@ -64,4 +93,31 @@
             </form>
         </div>
     </div>
+    <script>
+        var tipoField = document.getElementById("id_tipo");
+        var valorField = document.getElementById("id_valor_kg");
+        var quantidadeKgField = document.getElementById("id_quantidade_kg");
+        var valorTotalField = document.getElementById("id_valor_total");
+
+
+        function updateQuantidadeKgField() {
+            if (tipoField.value === "S") {
+                quantidadeKgField.parentElement.parentElement.style.display = "block";
+                valorField.parentElement.parentElement.style.display = "block";
+                valorTotalField.parentElement.parentElement.style.display = "block";
+            } else if(tipoField.value === "E"){
+                quantidadeKgField.parentElement.parentElement.style.display = "block";
+                valorField.parentElement.parentElement.style.display = "none";
+                valorTotalField.parentElement.parentElement.style.display = "none";
+            } else {
+                quantidadeKgField.parentElement.parentElement.style.display = "none";
+                valorField.parentElement.parentElement.style.display = "none";
+                valorTotalField.parentElement.parentElement.style.display = "none";
+            }
+        }
+
+        updateQuantidadeKgField();
+
+        tipoField.addEventListener("change", updateQuantidadeKgField);
+    </script>
 {% endblock %}

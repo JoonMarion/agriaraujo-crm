@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404, render
 from datetime import date, datetime
 from django.urls import reverse_lazy
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
@@ -41,7 +41,7 @@ class CaixaListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         object_list = context['object_list']
-        total = sum([obj.valor for obj in object_list])
+        total_caixa = sum(obj_caixa.quantidade_kg for obj_caixa in object_list)
         data_inicio = self.request.GET.get('inicio', None)
         data_fim = self.request.GET.get('fim', None)
         if data_inicio:
@@ -50,7 +50,7 @@ class CaixaListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
             data_fim = datetime.strptime(data_fim, '%Y-%m-%d').strftime('%d/%m/%Y')
         context['data_inicio'] = data_inicio
         context['data_fim'] = data_fim
-        context['total'] = total
+        context['total_caixa'] = total_caixa
         return context
 
 
@@ -58,7 +58,7 @@ class CaixaCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
     model = Caixa
     login_url = 'accounts:login'
     template_name = 'form_caixa.html'
-    fields = ['data', 'tipo', 'descricao', 'valor']
+    fields = ['data', 'descricao', 'quantidade_kg', 'tipo', 'valor_total', 'valor_kg']
     success_url = reverse_lazy('caixa:caixa_lista')
 
     def form_valid(self, form):
@@ -81,10 +81,10 @@ class CaixaUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
 class CaixaDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
     model = Caixa
     success_url = reverse_lazy('caixa:caixa_lista')
-    template_name = 'form_delete.html'
+    template_name = 'form_delete_caixa.html'
 
     def get_success_url(self):
-        messages.success(self.request, "Transação excluída com sucesso!")
+        messages.success(self.request, "Movimentação excluída com sucesso!")
         return reverse_lazy('caixa:caixa_lista')
 
 
@@ -138,6 +138,26 @@ def download_xlsx(request, **kwargs):
     wb.save(response)
 
     return response
+
+
+def caixa_imprimir(request, caixa_id):
+    caixa = Caixa.objects.get(id=caixa_id)
+
+    recibo_data = {
+        'data': caixa.data.strftime('%d/%m/%Y'),
+        'descricao': caixa.descricao,
+        'tipo': caixa.tipo,
+        'quantidade_kg': caixa.quantidade_kg,
+        'valor_kg': caixa.valor_kg,
+        'valor_total': caixa.valor_total,
+        'recibo_id': caixa_id,
+    }
+
+    context = {
+        'recibo': recibo_data,
+    }
+
+    return render(request, 'receipts/recibo_caixa.html', context)
 
 
 caixa_cadastro = CaixaCreateView.as_view()

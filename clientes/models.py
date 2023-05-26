@@ -2,6 +2,7 @@ from decimal import Decimal
 from django.db import models
 from django.core.validators import RegexValidator
 from django.forms import TextInput
+from .utils import calcular_valor_total
 
 
 class Cliente(models.Model):
@@ -31,23 +32,8 @@ class Transacao(models.Model):
         return self.descricao + ' - ' + self.cliente.nome + ' - ' + str(self.data)
 
     def save(self, *args, **kwargs):
-        if self.tipo == 'S' and self.quantidade_kg:
-            self.quantidade_kg = -self.quantidade_kg
-
-        if self.valor_kg and self.quantidade_kg:
-            if self.tipo == 'S':
-                self.valor_total = -Decimal(self.quantidade_kg) * Decimal(self.valor_kg)
-            else:
-                self.valor_total = Decimal(self.quantidade_kg) * Decimal(self.valor_kg)
-        elif self.valor_kg and self.valor_total:
-            if self.tipo == 'S':
-                self.quantidade_kg = -Decimal(self.valor_total) / Decimal(self.valor_kg)
-            else:
-                self.quantidade_kg = Decimal(self.valor_total) / Decimal(self.valor_kg)
-        elif self.quantidade_kg and self.valor_total:
-            if self.tipo == 'S':
-                self.valor_kg = -Decimal(self.valor_total) / Decimal(self.quantidade_kg)
-            else:
-                self.valor_kg = Decimal(self.valor_total) / Decimal(self.quantidade_kg)
-        super(Transacao, self).save(*args, **kwargs)
+        self.quantidade_kg, self.valor_kg, self.valor_total = calcular_valor_total(
+            self.tipo, self.quantidade_kg, self.valor_kg, self.valor_total
+        )
+        super().save(*args, **kwargs)
 

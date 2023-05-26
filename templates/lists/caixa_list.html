@@ -12,16 +12,17 @@
             <a href="{% url 'caixa:caixa_cadastro' %}" class="btn btn-primary input-group-text">
                 Adicionar Movimentação
             </a>
-            <a href="{% url 'caixa:download_xlsx' %}?inicio={{ data_inicio }}&fim={{ data_fim }}" class="btn btn-primary">Download XLSX</a>
+            <a href="{% url 'caixa:download_xlsx' %}?inicio={{ data_inicio }}&fim={{ data_fim }}"
+               class="btn btn-primary">Download XLSX</a>
         </div>
     </div>
 
-    {% if total > 0 %}
-        <h2>Saldo: R$ <span style="color: green;">{{ total }}</span></h2>
+    {% if total_caixa > 0 %}
+        <h2>Saldo: <span style="color: green;">{{ total_caixa }}</span> kg</h2>
     {% elif total < 0 %}
-        <h2>Saldo: R$ <span style="color: red;">{{ total }}</span></h2>
+        <h2>Saldo: <span style="color: red;">{{ total_caixa }}</span> kg</h2>
     {% else %}
-        <h2>Saldo: R$ {{ total }}</h2>
+        <h2>Saldo: {{ total_caixa }} kg</h2>
     {% endif %}
 
 
@@ -43,13 +44,14 @@
             <h3>
                 Data final:
                 {% if data_fim %}
-                     {{ data_fim }}
+                    {{ data_fim }}
                 {% endif %}
             </h3>
             <div style="display: flex; margin: 20px 0 20px 0;">
                 <input type="date" class="form-control" placeholder="Buscar data" name="fim"
                        id="fim">
-                <button class="btn btn-primary input-group-text" style="margin-left: 10px;" type="submit">Buscar</button>
+                <button class="btn btn-primary input-group-text" style="margin-left: 10px;" type="submit">Buscar
+                </button>
             </div>
         </div>
     </form>
@@ -61,13 +63,19 @@
                 DATA
             </th>
             <th>
+                HISTÓRICO
+            </th>
+            <th>
                 TIPO
             </th>
             <th>
-                DESCRIÇÃO
+                QUANTIDADE KG
             </th>
             <th>
-                VALOR
+                PREÇO UNITÁRIO
+            </th>
+            <th>
+                TOTAL
             </th>
             <th>
                 OPÇÕES
@@ -78,32 +86,51 @@
         {% for caixa in object_list %}
             <tr>
                 <td>
-                    {{ caixa.data|date:"d/m/Y" }}
-                </td>
-
-                <td>
-                    {% if caixa.tipo == 'E' %}
-                    <span style="color: green;">{{ caixa.get_tipo_display }}</span>
-                    {% else %}
-                    <span style="color: red;">{{ caixa.get_tipo_display }}</span>
-                    {% endif %}
+                    <p>{{ caixa.data }}</p>
                 </td>
                 <td>
-                    {{ caixa.descricao }}
+                    <p>{{ caixa.descricao }}</p>
                 </td>
+                {% if caixa.tipo == 'E' %}
+                    <td>
+                        <p style="color: green">Entrada</p>
+                    </td>
+                {% else %}
+                    <td>
+                        <p style="color: red">Saída</p>
+                    </td>
+                {% endif %}
                 <td>
-                    R$ {{ caixa.valor|make_positive }}
+                    <p>{{ caixa.quantidade_kg|make_positive }}</p>
                 </td>
+                {% if caixa.tipo == 'E' %}
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                {% else %}
+                    <td>
+                        <p>R$ {{ caixa.valor_kg }}</p>
+                    </td>
+                    <td>
+                        <p>R$ {{ caixa.valor_total|make_positive }}</p>
+                    </td>
+                {% endif %}
                 <td>
+                    <a href="{% url 'caixa:caixa_imprimir' caixa.id %}" class="text-success"
+                       style="padding-left: 10px; text-decoration: none;">
+                        <i class="fas fa-print" title="Imprimir Recibo"></i>
+                    </a>
                     <a href="{% url 'caixa:caixa_atualizar' caixa.id %}" class="text-primary"
                        style="padding-left: 10px; text-decoration: none;">
-                        <i class="fas fa-edit" title="Editar Movimentação"></i>
+                        <i class="fas fa-edit" title="Atualizar Movimentação"></i>
                     </a>
                     <a href="{% url 'caixa:caixa_deletar' caixa.id %}" class="mr-1 text-danger"
                        style="padding-left: 10px; text-decoration: none;">
                         <i class="fas fa-trash-alt" title="Deletar Movimentação"></i>
                     </a>
                 </td>
+
             </tr>
         {% endfor %}
         </tbody>
