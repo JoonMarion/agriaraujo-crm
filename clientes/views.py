@@ -68,9 +68,16 @@ class ClienteListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
     def get_queryset(self):
         search = self.request.GET.get('search')
         if search:
-            return Cliente.objects.filter(nome__icontains=search).order_by('nome')
+            queryset = Cliente.objects.filter(nome__icontains=search).order_by('nome')
         else:
-            return Cliente.objects.all().order_by('nome')
+            queryset = Cliente.objects.all().order_by('nome')
+
+        # Calculate the sum of quantidade_kg for all clients
+        total_quantidade_kg = Transacao.objects.aggregate(Sum('quantidade_kg'))['quantidade_kg__sum']
+        # Add the total_quantidade_kg to the context
+        self.extra_context = {'total_quantidade_kg': total_quantidade_kg}
+
+        return queryset
 
 
 class ClienteDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
@@ -183,13 +190,12 @@ def transacao_imprimir(request, transacao_id):
     return render(request, 'receipts/recibo_caixa.html', context)
 
 
-cliente_cadastro = ClienteCreateView.as_view()
-cliente_atualizar = ClienteUpdateView.as_view()
-cliente_lista = ClienteListView.as_view()
-cliente_deletar = ClienteDeleteView.as_view()
-
 transacao_cadastro = TransacaoCreateView.as_view()
 transacao_atualizar = TransacaoUpdateView.as_view()
 transacao_lista = TransacaoListView.as_view()
 transacao_deletar = TransacaoDeleteView.as_view()
 
+cliente_cadastro = ClienteCreateView.as_view()
+cliente_atualizar = ClienteUpdateView.as_view()
+cliente_lista = ClienteListView.as_view()
+cliente_deletar = ClienteDeleteView.as_view()

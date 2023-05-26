@@ -20,6 +20,15 @@
             <button class="btn btn-primary input-group-text" type="submit">Buscar</button>
         </div>
     </form>
+
+     {% if total_quantidade_kg > 0 %}
+        <h2>Saldo: <span style="color: green;">{{ total_quantidade_kg }}</span> kg</h2>
+    {% elif total_quantidade_kg < 0 %}
+        <h2>Saldo: <span style="color: red;">{{ total_quantidade_kg }}</span> kg</h2>
+    {% else %}
+        <h2>Saldo: {{ total_quantidade_kg }} kg</h2>
+    {% endif %}
+
     <table class="table table-bordered">
         <thead>
         <tr>
