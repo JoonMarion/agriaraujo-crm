@@ -12,7 +12,7 @@
             <a href="{% url 'caixa:caixa_cadastro' %}" class="btn btn-primary input-group-text">
                 Adicionar Movimentação
             </a>
-            <a href="{% url 'caixa:download_xlsx' %}?inicio={{ data_inicio }}&fim={{ data_fim }}"
+            <a href="{% url 'caixa:download_xlsx' %}?{% if data_inicio %}inicio={{ data_inicio }}{% endif %}{% if data_fim %}&fim={{ data_fim }}{% endif %}"
                class="btn btn-primary">Download XLSX</a>
         </div>
     </div>

@@ -1,3 +1,4 @@
+from openpyxl import Workbook
 from django.http import HttpResponse
 from django.shortcuts import redirect, get_object_or_404, render
 from datetime import date, datetime
@@ -89,7 +90,6 @@ class CaixaDeleteView(LoginRequiredMixin, TestMixinIsAdmin, DeleteView):
 
 
 def download_xlsx(request, **kwargs):
-
     data_inicio = request.GET.get('inicio')
     data_fim = request.GET.get('fim')
 
@@ -102,37 +102,36 @@ def download_xlsx(request, **kwargs):
         object_list = Caixa.objects.filter(data=hoje)
 
     # criar um novo arquivo Excel
-    wb = openpyxl.Workbook()
+    wb = Workbook()
     ws = wb.active
     ws.title = "Caixa"
 
     # adicionar cabeçalho
     ws['A1'] = 'DATA'
-    ws['B1'] = 'TIPO'
-    ws['C1'] = 'DESCRIÇÃO'
-    ws['D1'] = 'VALOR'
+    ws['B1'] = 'HISTÓRICO'
+    ws['C1'] = 'TIPO'
+    ws['D1'] = 'QUANTIDADE KG'
+    ws['E1'] = 'PREÇO UNITÁRIO'
+    ws['F1'] = 'VALOR TOTAL'
 
     # adicionar dados
     row_num = 2
     for caixa in object_list:
         ws.cell(row=row_num, column=1, value=caixa.data.strftime('%d/%m/%Y'))
-        ws.cell(row=row_num, column=2, value=caixa.get_tipo_display())
-        ws.cell(row=row_num, column=3, value=caixa.descricao)
-        ws.cell(row=row_num, column=4, value=round(caixa.valor, 2))
+        ws.cell(row=row_num, column=2, value=caixa.descricao)
+        ws.cell(row=row_num, column=3, value=caixa.get_tipo_display())
+        ws.cell(row=row_num, column=4, value=caixa.quantidade_kg or "")
+        ws.cell(row=row_num, column=5, value=caixa.valor_kg or "")
+        ws.cell(row=row_num, column=6, value=caixa.valor_total or "")
         row_num += 1
-
-    # Calcular o total dos valores
-    total = sum(caixa.valor for caixa in object_list)
-
-    # Adicionar uma linha adicional com o valor total
-    ws.cell(row=row_num, column=4, value="Total")
-    ws.cell(row=row_num, column=4).font = Font(bold=True)
-    row_num += 1
-    ws.cell(row=row_num, column=4, value=round(total, 2))
 
     # configurar o cabeçalho de resposta
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = f'attachment; filename="Caixa - {data_inicio} a {data_fim}.xlsx"'
+    if data_inicio and data_fim:
+        response['Content-Disposition'] = f'attachment; filename="Caixa - {data_inicio} a {data_fim}.xlsx"'
+    else:
+        hoje = date.today()
+        response['Content-Disposition'] = f'attachment; filename="Caixa - {hoje}.xlsx"'
 
     # salvar o arquivo Excel na resposta
     wb.save(response)
