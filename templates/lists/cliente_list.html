@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block title %}
     Produtores
 {% endblock %}
@@ -8,7 +8,8 @@
     <div class="row">
         <div class="col-md-8"><h2>Produtores</h2></div>
         <div class="col-md-4 text-right" style="margin-top: 21px; margin-bottom: 10.5px;">
-            <a href="{% url 'clientes:cliente_cadastro' %}" class="btn btn-primary input-group-text">
+            <a href="{% url 'clientes:cliente_cadastro' %}" title="Cadastrar Produtor"
+               class="btn btn-primary input-group-text">
                 Cadastrar
             </a>
         </div>
@@ -21,13 +22,25 @@
         </div>
     </form>
 
-     {% if total_quantidade_kg > 0 %}
-        <h2>Saldo: <span style="color: green;">{{ total_quantidade_kg }}</span> kg</h2>
-    {% elif total_quantidade_kg < 0 %}
-        <h2>Saldo: <span style="color: red;">{{ total_quantidade_kg }}</span> kg</h2>
-    {% else %}
-        <h2>Saldo: {{ total_quantidade_kg }} kg</h2>
-    {% endif %}
+    <div style="display: flex; align-items: center">
+        <h2 style="display: flex;">
+            {% if total_quantidade_kg > 0 %}
+                Saldo: <span style="color: green;" id="saldo">{{ total_quantidade_kg }}</span>
+            {% elif total_quantidade_kg < 0 %}
+                Saldo: <span style="color: red;" id="saldo">{{ total_quantidade_kg }}</span>
+            {% else %}
+                Saldo: <span id="saldo">{{ total_quantidade_kg }}</span>
+            {% endif %}
+            &nbsp;kg
+        </h2>
+        <img style="cursor: pointer; margin-left: 10px; margin-top: 20px" src="{% static 'image/hidden.png' %}" width="20px" height="20px"
+             id="eyeSvg" alt=""
+             data-original="{% static 'image/hidden.png' %}"
+             data-original2="{% static 'image/open.svg' %}"
+             onclick="eyeClick()"
+        />
+    </div>
+
 
     <table class="table table-bordered">
         <thead>
@@ -55,7 +68,7 @@
                 <td>
                     <p>{{ cliente.nome }}</p>
                 </td>
-                 <td>
+                <td>
                     <p>{{ cliente.telefone }}</p>
                 </td>
                 <td>
@@ -69,14 +82,37 @@
                     </a>
                     <a href="{% url 'clientes:cliente_atualizar' cliente.id %}" class="text-primary"
                        style="padding-left: 10px; text-decoration: none;">
-                        <i class="fas fa-edit" title="Editar Cliente"></i>
+                        <i class="fas fa-edit" title="Editar Produtor"></i>
                     </a>
                     <a href="{% url 'clientes:cliente_deletar' cliente.id %}" class="mr-1 text-danger"
                        style="padding-left: 10px; text-decoration: none;">
-                        <i class="fas fa-trash-alt" title="Deletar Cliente"></i>
+                        <i class="fas fa-trash-alt" title="Deletar Produtor"></i>
                     </a>
             </tr>
         {% endfor %}
         </tbody>
     </table>
+    <script>
+        var total_quantidade_kg_visible = true;
+
+        function toggleSaldo() {
+            total_quantidade_kg_visible = !total_quantidade_kg_visible;
+            updateSaldoVisibility();
+        }
+
+        function updateSaldoVisibility() {
+            var saldoElement = document.getElementById("saldo");
+            var iconElement = document.getElementById("icon");
+
+            if (total_quantidade_kg_visible) {
+                saldoElement.style.display = "block";
+                iconElement.classList.remove("fa-eye-slash");
+                iconElement.classList.add("fa-eye");
+            } else {
+                saldoElement.style.display = "none";
+                iconElement.classList.remove("fa-eye");
+                iconElement.classList.add("fa-eye-slash");
+            }
+        }
+    </script>
 {% endblock %}

@@ -28,7 +28,17 @@ class IndexView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
 
     def get_queryset(self):
         search = self.request.GET.get('search')
-        return Cliente.objects.order_by('nome')
+        if search:
+            queryset = Cliente.objects.filter(nome__icontains=search).order_by('nome')
+        else:
+            queryset = Cliente.objects.all().order_by('nome')
+
+        # Calculate the sum of quantidade_kg for all clients
+        total_quantidade_kg = Transacao.objects.aggregate(Sum('quantidade_kg'))['quantidade_kg__sum']
+        # Add the total_quantidade_kg to the context
+        self.extra_context = {'total_quantidade_kg': total_quantidade_kg}
+
+        return queryset
 
 
 class ClienteCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):

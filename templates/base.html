@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 {% load static %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="{% static 'assets/bootstrap.min.css' %}" media="screen"/>
     <link rel="stylesheet" href="{% static 'assets/custom.min.css' %}" media="screen"/>
     <link rel="stylesheet" href="{% static 'assets/extra.css' %}" media="screen"/>
+    <link rel="stylesheet" href="{% static 'assets/datepicker.css' %}" media="screen"/>
 </head>
 <body>
 <div class="navbar navbar-default navbar-fixed-top">
@@ -38,7 +39,6 @@
                     <li><a href="{% url 'accounts:logout' %}">Sair</a></li>
                 {% else %}
                     <li><a href="{% url 'accounts:login' %}">Entrar</a></li>
-                    {#<li><a href="{% url 'accounts:register' %}">Registro</a></li>#}
                 {% endif %}
             </ul>
         </div>
@@ -57,6 +57,7 @@
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="https://kit.fontawesome.com/c2a3297ec9.js" crossorigin="anonymous"></script>
 <script src="{% static 'assets/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/scripts.js' %}"></script>
 {% block scripts %}
 {% endblock %}
 </body>
