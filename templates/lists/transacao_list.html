@@ -12,11 +12,11 @@
             <div class="row">
                 <div class="col-md-8"><h2>Movimentações de {{ transacao.cliente }}</h2></div>
                 <div class="col-md-4 text-right" style="margin-top: 21px; margin-bottom: 10.5px;">
-                    <a href="{% url 'clientes:transacao_cadastro' transacao.cliente.id  %}" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Adicionar Movimentação
+                    <a href="{% url 'clientes:transacao_cadastro' transacao.cliente.id  %}" class="btn btn-primary" title="Adicionar Movimentação">
+                        <i class="fas fa-plus"></i> Adicionar
                     </a>
-                    <a href="{% url 'clientes:download_xlsx' transacao.cliente.id %}" class="btn btn-primary">
-                        <i class="fas fa-download" title="Atualizar Movimentação"></i> Download Excel
+                    <a href="{% url 'clientes:download_xlsx' transacao.cliente.id %}" class="btn btn-primary" title="Baixar Movimentações">
+                        <i class="fas fa-download"></i> Download
                     </a>
                 </div>
             </div>
