@@ -25,11 +25,11 @@
     <div style="display: flex; align-items: center">
         <h2 style="display: flex;">
             {% if total_quantidade_kg > 0 %}
-                Saldo: <span style="color: green;" id="saldo">{{ total_quantidade_kg }}</span>
+                Saldo:&nbsp;<span style="color: green;" id="saldo">{{ total_quantidade_kg }}</span>
             {% elif total_quantidade_kg < 0 %}
-                Saldo: <span style="color: red;" id="saldo">{{ total_quantidade_kg }}</span>
+                Saldo:&nbsp;<span style="color: red;" id="saldo">{{ total_quantidade_kg }}</span>
             {% else %}
-                Saldo: <span id="saldo">{{ total_quantidade_kg }}</span>
+                Saldo:&nbsp;<span id="saldo">{{ total_quantidade_kg }}</span>
             {% endif %}
             &nbsp;kg
         </h2>

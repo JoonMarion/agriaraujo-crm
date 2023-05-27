@@ -1,10 +1,13 @@
+import io
 from django.db.models import Sum
-from django.shortcuts import render
+from django.http import HttpResponse
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from openpyxl.workbook import Workbook
 
 from clientes.models import Cliente, Transacao
 
@@ -198,6 +201,55 @@ def transacao_imprimir(request, transacao_id):
     }
 
     return render(request, 'receipts/recibo_caixa.html', context)
+
+
+def download_xlsx(request, cliente_id):
+    cliente = get_object_or_404(Cliente, id=cliente_id)
+
+    # Criar um workbook
+    wb = Workbook()
+    ws = wb.active
+    ws.title = "Movimentações"
+
+    # Adicionar cabeçalhos
+    headers = ['CLIENTE', 'DATA', 'HISTÓRICO', 'TIPO', 'QUANTIDADE KG', 'PREÇO UNITÁRIO', 'TOTAL',]
+    ws.append(headers)
+
+    ws.cell(row=1, column=1, value='CLIENTE')
+    ws.cell(row=2, column=1, value=cliente.nome)
+
+    # Adicionar dados
+    saldo = 0
+    for transacao in Transacao.objects.select_related('cliente').filter(cliente__id=cliente_id):
+        cliente = transacao.cliente.nome
+        data = transacao.data.strftime('%d/%m/%Y')
+        descricao = transacao.descricao
+        tipo = 'Entrada' if transacao.tipo == 'E' else 'Saída'
+        quantidade_kg = str(transacao.quantidade_kg or "")
+        valor_kg = "" if transacao.tipo == 'E' else 'R$ ' + str(transacao.valor_kg)
+        valor_total = "" if transacao.tipo == 'E' else 'R$ ' + str(transacao.valor_total or "")
+        row = [cliente, data, descricao, tipo, quantidade_kg, valor_kg, valor_total]
+        ws.append(row)
+        saldo += transacao.quantidade_kg
+
+    # Adicionar campo "SALDO"
+    ws.append(['', '', '', '', '', '', ''])
+    ws.append(['', '', '', '', '', 'SALDO', saldo])
+
+    # Configurar a resposta
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = f'attachment; filename="Movimentações de {cliente}.xlsx"'
+
+    # Salvar o arquivo XLSX no buffer de memória
+    buffer = io.BytesIO()
+    wb.save(buffer)
+    buffer.seek(0)
+
+    # Copiar o conteúdo do buffer para a resposta
+    response.write(buffer.getvalue())
+
+    return response
+
 
 
 transacao_cadastro = TransacaoCreateView.as_view()

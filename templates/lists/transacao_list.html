@@ -15,6 +15,9 @@
                     <a href="{% url 'clientes:transacao_cadastro' transacao.cliente.id  %}" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Adicionar Movimentação
                     </a>
+                    <a href="{% url 'clientes:download_xlsx' transacao.cliente.id %}" class="btn btn-primary">
+                        <i class="fas fa-download" title="Atualizar Movimentação"></i> Download Excel
+                    </a>
                 </div>
             </div>
         {% endwith %}

@@ -15,4 +15,5 @@ urlpatterns = [
     path('deletar/transacao/<int:pk>/', views.transacao_deletar, name="transacao_deletar"),
 
     path('imprimir/<int:transacao_id>/', views.transacao_imprimir, name='transacao_imprimir'),
+    path('download-xlsx/<int:cliente_id>/', views.download_xlsx, name='download_xlsx'),
 ]
