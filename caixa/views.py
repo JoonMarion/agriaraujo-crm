@@ -114,6 +114,7 @@ def download_xlsx(request, **kwargs):
     ws['E1'] = 'PREÇO UNITÁRIO'
     ws['F1'] = 'VALOR TOTAL'
 
+    saldo = 0
     # adicionar dados
     row_num = 2
     for caixa in object_list:
@@ -124,6 +125,11 @@ def download_xlsx(request, **kwargs):
         ws.cell(row=row_num, column=5, value=caixa.valor_kg or "")
         ws.cell(row=row_num, column=6, value=caixa.valor_total or "")
         row_num += 1
+        saldo += caixa.quantidade_kg
+
+    # Adicionar campo "SALDO"
+    ws.append(['', '', '', '', '', '',])
+    ws.append(['', '', '', '', 'SALDO', saldo])
 
     # configurar o cabeçalho de resposta
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
