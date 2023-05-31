@@ -21,7 +21,7 @@
 
     {% if total_caixa > 0 %}
         <h2>Saldo: <span style="color: green;">{{ total_caixa }}</span> kg</h2>
-    {% elif total < 0 %}
+    {% elif total_caixa < 0 %}
         <h2>Saldo: <span style="color: red;">{{ total_caixa }}</span> kg</h2>
     {% else %}
         <h2>Saldo: {{ total_caixa }} kg</h2>

@@ -16,7 +16,7 @@
     </div>
     <form method="GET">
         <div style="display: flex; margin: 20px 0 20px 0;">
-            <input type="text" class="form-control" placeholder="Buscar cliente" name="search"
+            <input type="text" class="form-control" placeholder="Buscar produtor" name="search"
                    id="search">
             <button class="btn btn-primary input-group-text" type="submit">Buscar</button>
         </div>
@@ -29,7 +29,7 @@
             {% elif total_quantidade_kg < 0 %}
                 Saldo:&nbsp;<span style="color: red;" id="saldo">{{ total_quantidade_kg }}</span>
             {% else %}
-                Saldo:&nbsp;<span id="saldo">{{ total_quantidade_kg }}</span>
+                Saldo:&nbsp;<span id="saldo">0</span>
             {% endif %}
             &nbsp;kg
         </h2>
@@ -48,14 +48,20 @@
             <th>
                 ID
             </th>
-            <th>
-                Nome
+             <th style="min-width: 130px">
+                NOME
+            </th>
+            <th style="min-width: 130px">
+                CPF
+            </th>
+            <th style="min-width: 130px">
+                TELEFONE
             </th>
             <th>
-                Telefone
+                ANOTAÇÕES
             </th>
-            <th>
-                Opções
+            <th style="min-width: 130px">
+                OPÇÕES
             </th>
         </tr>
         </thead>
@@ -68,8 +74,14 @@
                 <td>
                     <p>{{ cliente.nome }}</p>
                 </td>
+                 <td>
+                    <p> {{ cliente.cpf }}</p>
+                </td>
                 <td>
                     <p>{{ cliente.telefone }}</p>
+                </td>
+                 <td>
+                    <p>{{ cliente.anotacoes }}</p>
                 </td>
                 <td>
                     <a href="{% url 'clientes:transacao_cadastro' cliente.id %}" class="mr-1 text-success"

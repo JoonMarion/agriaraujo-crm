@@ -6,9 +6,10 @@ from .utils import calcular_valor_total
 
 
 class Cliente(models.Model):
-    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="O número precisa estar neste formato: \'91988887777'.")
     nome = models.CharField(max_length=100)
-    telefone = models.CharField(max_length=20, null=True, blank=True, validators=[phone_regex])
+    telefone = models.CharField(max_length=20, null=True, blank=True)
+    cpf = models.CharField(max_length=11, null=True, blank=True)
+    anotacoes = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.nome

@@ -4,7 +4,7 @@ from clientes.models import Cliente, Transacao
 
 class ClienteAdmin(admin.ModelAdmin):
     list_display = [
-        'nome', 'telefone'
+        'nome', 'telefone', 'cpf', 'anotacoes'
     ]
 
 

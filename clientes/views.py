@@ -48,7 +48,7 @@ class ClienteCreateView(LoginRequiredMixin, TestMixinIsAdmin, CreateView):
     model = Cliente
     login_url = 'accounts:login'
     template_name = 'form.html'
-    fields = ['nome', 'telefone']
+    fields = ['nome', 'telefone', 'cpf', 'anotacoes']
     success_url = reverse_lazy('clientes:cliente_lista')
 
     def get_context_data(self, **kwargs):
@@ -61,7 +61,7 @@ class ClienteUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
     model = Cliente
     login_url = 'accounts:login'
     template_name = 'form.html'
-    fields = ['nome', 'telefone']
+    fields = ['nome', 'telefone', 'cpf', 'anotacoes']
     success_url = reverse_lazy('clientes:cliente_lista')
 
     def get_context_data(self, **kwargs):
