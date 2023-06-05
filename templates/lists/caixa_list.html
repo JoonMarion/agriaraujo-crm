@@ -9,7 +9,8 @@
     <div class="row">
         <div class="col-md-8"><h1>Caixa</h1></div>
         <div class="col-md-4 text-right" style="margin-top: 21px; margin-bottom: 10.5px;">
-            <a href="{% url 'caixa:caixa_cadastro' %}" class="btn btn-primary input-group-text" title="Adicionar Movimentação">
+            <a href="{% url 'caixa:caixa_cadastro' %}" class="btn btn-primary input-group-text"
+               title="Adicionar Movimentação">
                 <i class="fas fa-plus"></i> Adicionar
             </a>
             <a href="{% url 'caixa:download_xlsx' %}?{% if data_inicio %}inicio={{ data_inicio }}{% endif %}{% if data_fim %}&fim={{ data_fim }}{% endif %}"
@@ -68,9 +69,6 @@
                 HISTÓRICO
             </th>
             <th>
-                TIPO
-            </th>
-            <th>
                 QUANTIDADE KG
             </th>
             <th>
@@ -93,31 +91,15 @@
                 <td>
                     <p>{{ caixa.descricao }}</p>
                 </td>
-                {% if caixa.tipo == 'E' %}
-                    <td>
-                        <p style="color: green">Entrada</p>
-                    </td>
-                {% else %}
-                    <td>
-                        <p style="color: red">Saída</p>
-                    </td>
-                {% endif %}
                 <td>
                     <p>{{ caixa.quantidade_kg|make_positive }}</p>
                 </td>
-                {% if caixa.tipo == 'E' %}
-                    <td>
-                    </td>
-                    <td>
-                    </td>
-                {% else %}
-                    <td>
-                        <p>R$ {{ caixa.valor_kg }}</p>
-                    </td>
-                    <td>
-                        <p>R$ {{ caixa.valor_total|make_positive }}</p>
-                    </td>
-                {% endif %}
+                <td>
+                    <p>R$ {{ caixa.valor_kg }}</p>
+                </td>
+                <td>
+                    <p>R$ {{ caixa.valor_total|make_positive }}</p>
+                </td>
                 <td>
                     <a href="{% url 'caixa:caixa_imprimir' caixa.id %}" class="text-success"
                        style="padding-left: 10px; text-decoration: none;">

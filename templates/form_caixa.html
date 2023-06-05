@@ -94,30 +94,32 @@
         </div>
     </div>
     <script>
-        var tipoField = document.getElementById("id_tipo");
-        var valorField = document.getElementById("id_valor_kg");
-        var quantidadeKgField = document.getElementById("id_quantidade_kg");
-        var valorTotalField = document.getElementById("id_valor_total");
+    var tipoField = document.getElementById("id_tipo");
+    var valorField = document.getElementById("id_valor_kg");
+    var quantidadeKgField = document.getElementById("id_quantidade_kg");
+    var valorTotalField = document.getElementById("id_valor_total");
 
-
-        function updateQuantidadeKgField() {
-            if (tipoField.value === "S") {
-                quantidadeKgField.parentElement.parentElement.style.display = "block";
-                valorField.parentElement.parentElement.style.display = "block";
-                valorTotalField.parentElement.parentElement.style.display = "block";
-            } else if(tipoField.value === "E"){
-                quantidadeKgField.parentElement.parentElement.style.display = "block";
-                valorField.parentElement.parentElement.style.display = "none";
-                valorTotalField.parentElement.parentElement.style.display = "none";
-            } else {
-                quantidadeKgField.parentElement.parentElement.style.display = "none";
-                valorField.parentElement.parentElement.style.display = "none";
-                valorTotalField.parentElement.parentElement.style.display = "none";
-            }
+    function updateQuantidadeKgField() {
+        if (tipoField.value === "E") {
+            quantidadeKgField.parentElement.parentElement.style.display = "block";
+            valorField.parentElement.parentElement.style.display = "block";
+            valorTotalField.parentElement.parentElement.style.display = "block";
+        } else if (tipoField.value === "S") {
+            quantidadeKgField.parentElement.parentElement.style.display = "block";
+            valorField.parentElement.parentElement.style.display = "none";
+            valorTotalField.parentElement.parentElement.style.display = "none";
+        } else {
+            quantidadeKgField.parentElement.parentElement.style.display = "none";
+            valorField.parentElement.parentElement.style.display = "none";
+            valorTotalField.parentElement.parentElement.style.display = "none";
         }
+    }
 
-        updateQuantidadeKgField();
+    tipoField.value = "E"; // Seleciona o valor "E" como padrão
 
-        tipoField.addEventListener("change", updateQuantidadeKgField);
-    </script>
+    updateQuantidadeKgField();
+
+    tipoField.addEventListener("change", updateQuantidadeKgField);
+</script>
+
 {% endblock %}

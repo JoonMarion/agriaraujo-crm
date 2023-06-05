@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Imprimir recibo</title>
     <style>
         @media print {
             @page {
@@ -137,28 +137,60 @@
             <span class="receipt-label text-large">Nome:</span>
             <span class="text-large">{{ recibo.cliente }}</span>
         </div>
-    {% endif %}
-    <div class="receipt-section pull-left">
-        <span class="receipt-label text-large">Histórico: </span>
-        <span class="text-large">{{ recibo.descricao }}</span>
-    </div>
-    <div class="receipt-section pull-left">
-        <span class="receipt-label text-large">Data: </span>
-        <span class="text-large">{{ recibo.data }}</span>
-    </div>
-    {% if recibo.tipo == 'S' %}
+
         <div class="receipt-section pull-left">
-            <span class="receipt-label text-large">Tipo: </span>
-            <span class="text-large">Saída</span>
+            <span class="receipt-label text-large">Histórico: </span>
+            <span class="text-large">{{ recibo.descricao }}</span>
         </div>
+
+        <div class="receipt-section pull-left">
+            <span class="receipt-label text-large">Data: </span>
+            <span class="text-large">{{ recibo.data }}</span>
+        </div>
+        {% if recibo.tipo == 'S' %}
+            <div class="receipt-section pull-left">
+                <span class="receipt-label text-large">Tipo: </span>
+                <span class="text-large">Saída</span>
+            </div>
+        {% else %}
+            <div class="receipt-section pull-left">
+                <span class="receipt-label text-large">Tipo: </span>
+                <span class="text-large">Entrada</span>
+            </div>
+        {% endif %}
+
+        {% if recibo.tipo == 'S' %}
+            <div class="receipt-section pull-left">
+                <span class="receipt-label text-large">Quantidade kg:</span>
+                <span class="text-large">{{ recibo.quantidade_kg|make_positive }}</span>
+            </div>
+            <div class="receipt-section pull-left">
+                <span class="receipt-label text-large">Preço unitário: </span>
+                <span class="text-large">R$ {{ recibo.valor_kg }}</span>
+            </div>
+            <div class="receipt-section pull-left">
+                <span class="receipt-label text-large">Total: </span>
+                <span class="text-large">R$ {{ recibo.valor_total|make_positive }}</span>
+            </div>
+        {% else %}
+            <div class="receipt-section pull-left">
+                <span class="receipt-label text-large">Quantidade kg:</span>
+                <span class="text-large">{{ recibo.quantidade_kg|make_positive }}</span>
+            </div>
+        {% endif %}
     {% else %}
+        <div class="receipt-section pull-left">
+            <span class="receipt-label text-large">Histórico: </span>
+            <span class="text-large">{{ recibo.descricao }}</span>
+        </div>
+        <div class="receipt-section pull-left">
+            <span class="receipt-label text-large">Data: </span>
+            <span class="text-large">{{ recibo.data }}</span>
+        </div>
         <div class="receipt-section pull-left">
             <span class="receipt-label text-large">Tipo: </span>
             <span class="text-large">Entrada</span>
         </div>
-    {% endif %}
-
-    {% if recibo.tipo == 'S' %}
         <div class="receipt-section pull-left">
             <span class="receipt-label text-large">Quantidade kg:</span>
             <span class="text-large">{{ recibo.quantidade_kg|make_positive }}</span>
@@ -171,12 +203,8 @@
             <span class="receipt-label text-large">Total: </span>
             <span class="text-large">R$ {{ recibo.valor_total|make_positive }}</span>
         </div>
-    {% else %}
-        <div class="receipt-section pull-left">
-            <span class="receipt-label text-large">Quantidade kg:</span>
-            <span class="text-large">{{ recibo.quantidade_kg|make_positive }}</span>
-        </div>
     {% endif %}
+
     <div class="magin-bot"></div>
 </div>
 <div class="button-wrapper">
