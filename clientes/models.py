@@ -8,9 +8,8 @@ from .utils import calcular_valor_total
 class Cliente(models.Model):
     nome = models.CharField(max_length=100)
     telefone = models.CharField(max_length=20, null=True, blank=True)
-    cpf = models.CharField(max_length=11, null=True, blank=True)
+    cpf = models.CharField(max_length=14, null=True, blank=True)
     anotacoes = models.TextField(null=True, blank=True)
-
     def __str__(self):
         return self.nome
 

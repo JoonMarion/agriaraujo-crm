@@ -74,15 +74,30 @@
                 <td>
                     <p>{{ cliente.nome }}</p>
                 </td>
+                {% if cliente.cpf %}
                  <td>
                     <p> {{ cliente.cpf }}</p>
                 </td>
-                <td>
-                    <p>{{ cliente.telefone }}</p>
-                </td>
-                 <td>
-                    <p>{{ cliente.anotacoes }}</p>
-                </td>
+                {% else %}
+                    <td>
+                    </td>
+                {% endif %}
+                {% if cliente.telefone %}
+                    <td>
+                        <p>{{ cliente.telefone }}</p>
+                    </td>
+                {% else %}
+                    <td>
+                    </td>
+                {% endif %}
+                {% if cliente.anotacoes %}
+                     <td>
+                        <p>{{ cliente.anotacoes }}</p>
+                    </td>
+                {% else %}
+                    <td>
+                    </td>
+                {% endif %}
                 <td>
                     <a href="{% url 'clientes:transacao_cadastro' cliente.id %}" class="mr-1 text-success"
                        style="padding-left: 10px; text-decoration: none;">
