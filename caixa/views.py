@@ -42,7 +42,7 @@ class CaixaListView(LoginRequiredMixin, TestMixinIsAdmin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         object_list = context['object_list']
-        total_caixa = sum(obj_caixa.quantidade_kg for obj_caixa in object_list)
+        total_caixa = sum(obj_caixa.quantidade_kg for obj_caixa in object_list if obj_caixa.quantidade_kg is not None)
         data_inicio = self.request.GET.get('inicio', None)
         data_fim = self.request.GET.get('fim', None)
         if data_inicio:
@@ -71,7 +71,7 @@ class CaixaUpdateView(LoginRequiredMixin, TestMixinIsAdmin, UpdateView):
     model = Caixa
     login_url = 'accounts:login'
     template_name = 'form_caixa.html'
-    fields = ['data', 'tipo', 'descricao', 'valor']
+    fields = ['data', 'descricao', 'quantidade_kg', 'tipo', 'valor_total', 'valor_kg']
     success_url = reverse_lazy('caixa:caixa_lista')
 
     def form_valid(self, form):
