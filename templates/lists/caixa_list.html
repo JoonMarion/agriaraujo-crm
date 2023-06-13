@@ -91,15 +91,33 @@
                 <td>
                     <p>{{ caixa.descricao }}</p>
                 </td>
-                <td>
-                    <p>{{ caixa.quantidade_kg|make_positive }}</p>
-                </td>
-                <td>
-                    <p>R$ {{ caixa.valor_kg }}</p>
-                </td>
-                <td>
-                    <p>R$ {{ caixa.valor_total|make_positive }}</p>
-                </td>
+                {% if caixa.quantidade_kg %}
+                    <td>
+                        <p>{{ caixa.quantidade_kg|make_positive }}</p>
+                    </td>
+                {% else %}
+                    <td>
+                        <p>Null</p>
+                    </td>
+                {% endif %}
+                {% if caixa.valor_kg %}
+                    <td>
+                        <p>R$ {{ caixa.valor_kg }}</p>
+                    </td>
+                {% else %}
+                    <td>
+                        <p>Null</p>
+                    </td>
+                {% endif %}
+                {% if caixa.valor_total %}
+                    <td>
+                        <p>Null</p>
+                    </td>
+                {% else %}
+                    <td>
+                        <p>Null</p>
+                    </td>
+                {% endif %}
                 <td>
                     <a href="{% url 'caixa:caixa_imprimir' caixa.id %}" class="text-success"
                        style="padding-left: 10px; text-decoration: none;">
